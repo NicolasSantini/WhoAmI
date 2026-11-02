@@ -1,0 +1,9 @@
+---
+// Visible in development only: production output contains nothing.
+---
+
+{import.meta.env.DEV && (
+  <span class="todo">
+    TODO: <slot />
+  </span>
+)}

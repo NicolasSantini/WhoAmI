@@ -1,0 +1,85 @@
+---
+import '../styles/global.css';
+import Email from '../components/Email.astro';
+import { site } from '../data/site.ts';
+
+interface Props {
+  title?: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image = '/og.png' } = Astro.props;
+const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+
+const nav = [
+  ['/chi-sono/', 'Chi sono'],
+  ['/esperienze/', 'Esperienze'],
+  ['/studi/', 'Studi e certificazioni'],
+  ['/competenze/', 'Competenze'],
+  ['/formazione-ai/', 'Formazione AI'],
+  ['/contatti/', 'Contatti'],
+];
+const current = (href: string) => Astro.url.pathname.startsWith(href);
+---
+
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenuto">
+      Vai al contenuto
+    </a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/">
+          {site.name}
+        </a>
+        <nav class="site-nav" aria-label="Principale">
+          <ul>
+            {nav.map(([href, label]) => (
+              <li>
+                <a href={href} aria-current={current(href) ? 'page' : undefined}>
+                  {label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <main id="contenuto">
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <p>
+          {site.name}
+          {site.vatNumber && <> · P.IVA {site.vatNumber}</>} · <Email />
+        </p>
+        <p>
+          <a href="/privacy/">Privacy</a> · <a href="/oltre-il-lavoro/">Oltre il lavoro</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

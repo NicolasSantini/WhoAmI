@@ -1,0 +1,15 @@
+role: Cloud & Data Engineer
+company: JAKALA
+engagement: Contratto
+start: 2026-03
+end: 2026-09
+summary: Unico responsabile tecnico della migrazione di una piattaforma MDM legacy Informatica PowerCenter verso un'architettura cloud-native su Google Cloud, per un grande gruppo retail italiano multi-insegna con 8 insegne e oltre 15 milioni di record cliente.
+sections:
+  - points:
+      - Ho ridisegnato il livello dati attorno a pipeline serverless event-driven su Cloud Run, Cloud Functions e Cloud Workflows, sostituendo l'ETL batch schedulato con un'elaborazione quasi in tempo reale che reagisce ai cambiamenti dei dati sorgente.
+      - Ho ricostruito la logica legacy non documentata (matching multi-sorgente, regole di survivorship, definizione dei golden record), l'ho validata con i referenti di business e l'ho riscritta in componenti di pipeline modulari e testabili.
+      - Ho fatto girare la nuova piattaforma in parallelo alla vecchia e costruito un livello di riconciliazione che confronta gli output record per record e campo per campo; il cutover era vincolato alla classificazione di ogni differenza come difetto legacy o regressione.
+      - Ho implementato validazione dei dati, monitoraggio degli schemi e alerting operativo, così i problemi di qualità emergevano prima di arrivare al business.
+      - Ho costruito il livello di persistenza su Cloud SQL (PostgreSQL), con credenziali, policy di sicurezza e rotazione automatica gestite tramite Secret Manager.
+      - Ho trattato i dati di consenso marketing come un tema di compliance e non solo di qualità, assicurando che ogni consenso restasse legato all'identità corretta durante matching e merge.
+      - Ho definito una strategia di cutover che ha spostato le applicazioni enterprise a valle dalla piattaforma legacy senza interruzioni di servizio, mantenendo il sistema legacy come percorso di rollback.

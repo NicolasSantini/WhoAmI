@@ -1,0 +1,3 @@
+name: Pipeline di estrazione dati basata su visione
+order: 3
+description: Trasforma screenshot non strutturati in record strutturati con un modello LLM vision, con una soglia di confidenza e un percorso di revisione manuale per le estrazioni ambigue.

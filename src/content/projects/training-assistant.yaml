@@ -1,0 +1,3 @@
+name: Assistente di allenamento multi-sorgente
+order: 2
+description: Aggrega dati da più provider fitness in un unico modello normalizzato e scrive un piano periodizzato su Google Calendar, gestendo refresh dei token OAuth2, rate limit per provider e schemi incoerenti.

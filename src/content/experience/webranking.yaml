@@ -1,0 +1,22 @@
+role: Innovation Engineer
+company: WEBRANKING
+start: 2024-04
+end: 2026-03
+summary: Data engineering su oltre 50 account di analytics dei clienti, dalle pipeline di ingestion ad alto volume al ridisegno dello stack analitico principale.
+sections:
+  - title: Ingestion ad alto volume, event-driven
+    points:
+      - Ho costruito e gestito una pipeline continua che acquisisce dati di keyword intelligence dalle API di un provider esterno, con centinaia di migliaia di keyword per ciclo.
+      - Ho coordinato servizi di elaborazione di lunga durata tramite Pub/Sub, che guidava l'orchestrazione e la notifica a valle dei batch completati, con i risultati caricati in BigQuery.
+      - Ho gestito l'ingestion da terze parti ad alto volume, tra rate limit dei provider, fallimenti parziali, retry e schemi incoerenti fra le sorgenti.
+  - title: Piattaforma analitica e pipeline
+    points:
+      - Ho guidato la migrazione dello stack analitico principale da MongoDB a BigQuery, riducendo il tempo delle query di circa il 90% e rendendo routine le analisi pluriennali, prima impraticabili.
+      - Ho progettato e gestito pipeline di produzione con Python, Dataflow e Airflow, trasformando segnali di marketing grezzi in dataset puliti usati ogni giorno dai team di analytics.
+      - Ho progettato e rilasciato API REST in FastAPI con OAuth2, automatizzando l'integrazione dei dati fra piattaforme interne, Google Analytics e Meta Business Manager.
+      - Ho costruito e gestito componenti serverless su AWS (Lambda, S3, DynamoDB) con monitoraggio e alerting su CloudWatch.
+  - title: Pratiche di ingegneria e formazione
+    points:
+      - Ho introdotto flussi di rilascio CI/CD basati su Git con Cloud Build fra i team di ingegneria e containerizzato i workload con Docker per standardizzare gli ambienti di esecuzione.
+      - Ho progettato e tenuto una giornata di formazione AI in presenza per circa 20 senior di Tecnomat, su AI nei processi aziendali e automazione delle attività, chiusa da un workshop pratico.
+      - Ho fatto da ponte tecnico fra strateghi di marketing e ingegneria, definendo i requisiti e valutando la fattibilità prima dello sviluppo.

@@ -1,0 +1,47 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatRange } from '../lib/format.ts';
+
+const experiences = (await getCollection('experience')).sort((a, b) =>
+  b.data.start.localeCompare(a.data.start),
+);
+---
+
+<Base
+  title="Esperienze"
+  description="Esperienze di Nicolas Santini come Cloud & Data Engineer e formatore AI: JAKALA, WEBRANKING, MakerDojo."
+>
+  <div class="wrap page">
+    <h1>Esperienze</h1>
+    <ol class="timeline">
+      {experiences.map(({ data }) => (
+        <li>
+          <span class="when">
+            {formatRange(data.start, data.end)}
+            {data.engagement && ` · ${data.engagement}`}
+          </span>
+          <h2>
+            {data.role} · {data.company}
+          </h2>
+          <p class="prose">{data.summary}</p>
+          {data.sections.map((section) => (
+            <>
+              {section.title && <h3>{section.title}</h3>}
+              <ul>
+                {section.points.map((point) => (
+                  <li>{point}</li>
+                ))}
+              </ul>
+            </>
+          ))}
+        </li>
+      ))}
+    </ol>
+    <div class="actions">
+      <a class="button" href="/cv/nicolas-santini-cv.pdf" download>
+        Scarica il CV (PDF)
+      </a>
+    </div>
+  </div>
+</Base>

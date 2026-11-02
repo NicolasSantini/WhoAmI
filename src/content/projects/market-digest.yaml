@@ -1,0 +1,3 @@
+name: Pipeline serverless di digest di mercato
+order: 1
+description: Pipeline event-driven su Pub/Sub e Cloud Functions che recupera dati di mercato a orari prestabiliti, calcola statistiche mobili giornaliere su una watchlist e consegna un riepilogo formattato.

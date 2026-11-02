@@ -1,0 +1,63 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { formatRange } from '../lib/format.ts';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const volunteering = (await getCollection('volunteering')).sort((a, b) =>
+  b.data.start.localeCompare(a.data.start),
+);
+---
+
+<Base
+  title="Chi sono"
+  description="Nicolas Santini, Cloud & Data Engineer indipendente su Google Cloud: percorso, progetti personali e volontariato."
+>
+  <div class="wrap page">
+    <h1>Chi sono</h1>
+    <div class="prose">
+      <p class="lead">
+        Sono un Cloud &amp; Data Engineer indipendente, in Partita IVA in regime forfettario, con
+        quasi tre anni di esperienza in produzione su Google Cloud.
+      </p>
+      <p>
+        Progetto, costruisco e gestisco pipeline ETL/ELT ed event-driven in Python e SQL. Il lavoro
+        più recente è stata la migrazione di una piattaforma MDM legacy su Google Cloud per un
+        grande gruppo retail italiano multi-insegna, come unico ingegnere: ogni regola di
+        trasformazione è stata ricostruita da un sistema non documentato e dimostrata corretta campo
+        per campo prima del cutover.
+      </p>
+      <p>
+        Prima ho lavorato su ingestion da API ad alto volume, con centinaia di migliaia di record
+        per ciclo, e su una migrazione da MongoDB a BigQuery che ha ridotto il tempo delle query di
+        circa il 90%.
+      </p>
+      <p>
+        Accanto all'ingegneria progetto e tengo formazione pratica sull'AI generativa per aziende e
+        scuole. Sono disponibile per lavoro da remoto o ibrido.
+      </p>
+    </div>
+
+    <h2>Progetti personali</h2>
+    <ul class="cards">
+      {projects.map(({ data }) => (
+        <li>
+          <h3>{data.name}</h3>
+          <p class="small">{data.description}</p>
+        </li>
+      ))}
+    </ul>
+
+    <h2>Volontariato</h2>
+    <ol class="timeline">
+      {volunteering.map(({ data }) => (
+        <li>
+          <span class="when">{formatRange(data.start, data.end)}</span>
+          <h3>{data.role}</h3>
+          <p class="muted small">{data.organisation}</p>
+          <p class="prose">{data.note}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>

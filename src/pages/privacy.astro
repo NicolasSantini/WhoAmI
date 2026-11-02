@@ -1,0 +1,46 @@
+---
+import Email from '../components/Email.astro';
+import { site } from '../data/site.ts';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Privacy"
+  description="Come questo sito tratta i dati: nessun cookie, nessun analytics, nessun modulo."
+>
+  <div class="wrap page prose">
+    <h1>Privacy</h1>
+    <p class="muted small">Ultimo aggiornamento: novembre 2026</p>
+
+    <h2>In breve</h2>
+    <p>
+      Questo sito non usa cookie, non ha analytics, non ha moduli e non carica nulla da servizi
+      esterni. Font e immagini sono serviti dal sito stesso.
+    </p>
+
+    <h2>Titolare</h2>
+    <p>
+      {site.name}. Per qualsiasi richiesta: <Email />.
+    </p>
+
+    <h2>Dati tecnici di navigazione</h2>
+    <p>
+      Il sito è ospitato su Cloudflare Pages. Come ogni server web, l'infrastruttura di hosting può
+      trattare dati tecnici come l'indirizzo IP per consegnare le pagine e proteggere il servizio.
+      Io non uso questi dati per identificare o profilare i visitatori.
+    </p>
+
+    <h2>Se mi scrivi</h2>
+    <p>
+      Se mi contatti via email, uso i dati che mi invii solo per risponderti. Puoi chiedermi in
+      qualsiasi momento di accedere a quei dati, correggerli o cancellarli, e puoi rivolgerti al
+      Garante per la protezione dei dati personali.
+    </p>
+
+    <h2>Link esterni</h2>
+    <p>
+      I link verso LinkedIn e Strava portano su siti di terzi, che applicano le proprie regole sulla
+      privacy.
+    </p>
+  </div>
+</Base>

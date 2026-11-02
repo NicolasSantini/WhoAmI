@@ -1,0 +1,9 @@
+---
+import { site } from '../data/site.ts';
+import { encodeEntities } from '../lib/format.ts';
+
+const href = encodeEntities(`mailto:${site.email}`);
+const label = encodeEntities(site.email);
+---
+
+<Fragment set:html={`<a href="${href}">${label}</a>`} />

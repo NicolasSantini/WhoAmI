@@ -1,1 +1,72 @@
-[]
+- id: google-cloud
+  group: Google Cloud
+  order: 1
+  items:
+    - BigQuery
+    - Dataflow (Apache Beam)
+    - Pub/Sub
+    - Cloud Run
+    - Cloud Functions
+    - Cloud Workflows
+    - Cloud Storage
+    - Cloud SQL (PostgreSQL)
+    - Secret Manager
+    - Cloud Build
+    - Cloud Monitoring e Logging
+- id: pipelines
+  group: Pipeline e orchestrazione
+  order: 2
+  items:
+    - Progettazione ETL/ELT
+    - Architetture event-driven e serverless
+    - Apache Airflow
+    - Validazione e riconciliazione dei dati
+- id: languages
+  group: Linguaggi
+  order: 3
+  items:
+    - Python (Pandas, NumPy, FastAPI, Django)
+    - SQL
+- id: databases
+  group: Database
+  order: 4
+  items:
+    - BigQuery
+    - PostgreSQL
+    - MySQL
+    - MongoDB
+    - Firestore
+    - DynamoDB
+- id: aws
+  group: AWS (circa due anni)
+  order: 5
+  items:
+    - Lambda
+    - S3
+    - DynamoDB
+    - CloudWatch
+- id: engineering
+  group: Pratiche di ingegneria
+  order: 6
+  items:
+    - API REST con OAuth2
+    - Docker
+    - Git
+    - Bitbucket
+    - CI/CD basata su Git
+- id: generative-ai
+  group: AI generativa
+  order: 7
+  items:
+    - Google Gemini
+    - NotebookLM
+    - Prompt design
+    - Abilitazione all'AI per team non tecnici
+- id: spoken-languages
+  group: Lingue
+  order: 8
+  items:
+    - Italiano (madrelingua)
+    - Inglese (C1, professionale)
+    - Francese (A2)
+    - Spagnolo (A2)

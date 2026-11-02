@@ -1,14 +1,63 @@
 ---
-import { site } from '../data/site.ts';
+import Base from '../layouts/Base.astro';
 ---
 
-<html lang="it">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{site.name}</title>
-  </head>
-  <body>
-    <h1>{site.name}</h1>
-  </body>
-</html>
+<Base description="Freelance Cloud & Data Engineer a Modena: pipeline dati su Google Cloud, migrazioni e formazione AI per aziende e scuole.">
+  <div class="wrap page">
+    <h1>Nicolas Santini</h1>
+    <p class="lead">
+      Freelance Cloud &amp; Data Engineer a Modena. Progetto, costruisco e gestisco pipeline dati su
+      Google Cloud, con Python, SQL e Airflow. In parallelo progetto e tengo formazione pratica
+      sull'AI generativa per aziende e scuole.
+    </p>
+    <div class="actions">
+      <a class="button primary" href="/contatti/">
+        Contattami
+      </a>
+      <a class="button" href="/cv/nicolas-santini-cv.pdf" download>
+        Scarica il CV (PDF)
+      </a>
+    </div>
+
+    <ul class="facts" aria-label="Risultati in breve">
+      <li>
+        <strong>15M+</strong> record cliente nella migrazione MDM su Google Cloud
+      </li>
+      <li>
+        <strong>~90%</strong> di tempo query in meno, da MongoDB a BigQuery
+      </li>
+      <li>
+        <strong>50+</strong> account di analytics seguiti
+      </li>
+      <li>
+        <strong>38</strong> sessioni di formazione AI per docenti in programma
+      </li>
+    </ul>
+
+    <h2>Di cosa mi occupo</h2>
+    <ul class="cards">
+      <li>
+        <h3>Data engineering su Google Cloud</h3>
+        <p>
+          BigQuery, Dataflow, Cloud Run, Cloud Functions, Cloud Workflows, Pub/Sub e Cloud SQL per
+          pipeline ETL/ELT ed event-driven in produzione.
+        </p>
+        <a href="/esperienze/">Vedi le esperienze</a>
+      </li>
+      <li>
+        <h3>Formazione AI</h3>
+        <p>
+          Percorsi pratici in cui le persone costruiscono e verificano materiali reali, per team
+          aziendali e per docenti.
+        </p>
+        <a href="/formazione-ai/">Come lavoro</a>
+      </li>
+    </ul>
+
+    <h2>Certificazione</h2>
+    <p>Google Cloud Professional Machine Learning Engineer, gennaio 2026.</p>
+    <p>
+      <a href="/studi/">Studi e certificazioni</a>
+    </p>
+  </div>
+</Base>

@@ -1,0 +1,33 @@
+---
+import Email from '../components/Email.astro';
+import { site } from '../data/site.ts';
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Contatti"
+  description="Come contattare Nicolas Santini, Freelance Cloud & Data Engineer a Modena: email e LinkedIn."
+>
+  <div class="wrap page">
+    <h1>Contatti</h1>
+    <p class="lead">Disponibile per lavoro da remoto o ibrido, con base a {site.location}.</p>
+    <ul class="cards">
+      <li>
+        <h2>Email</h2>
+        <Email />
+      </li>
+      <li>
+        <h2>LinkedIn</h2>
+        <a href={site.linkedin} rel="noopener">
+          nicolas-santini01
+        </a>
+      </li>
+      <li>
+        <h2>CV</h2>
+        <a href="/cv/nicolas-santini-cv.pdf" download>
+          Scarica il PDF
+        </a>
+      </li>
+    </ul>
+  </div>
+</Base>

@@ -25,3 +25,4 @@ src/content/races/*/medal*.png
 src/content/races/*/medal*.jpg
 src/content/races/*/medal*.jpeg
 src/content/races/*/medal*.webp
+.claude/

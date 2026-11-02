@@ -1,0 +1,53 @@
+---
+import { getCollection } from 'astro:content';
+import Todo from '../components/Todo.astro';
+import Base from '../layouts/Base.astro';
+import { formatMonth, formatRange } from '../lib/format.ts';
+
+const education = (await getCollection('education')).sort((a, b) =>
+  b.data.start.localeCompare(a.data.start),
+);
+const certifications = (await getCollection('certifications')).sort((a, b) =>
+  b.data.status.localeCompare(a.data.status),
+);
+const certificationDetail = (data: (typeof certifications)[number]['data']) =>
+  data.status === 'ottenuta' && data.date
+    ? `Ottenuta a ${formatMonth(data.date)}`
+    : `In preparazione${data.target ? `, obiettivo ${data.target}` : ''}`;
+---
+
+<Base
+  title="Studi e certificazioni"
+  description="Laurea in Ingegneria Informatica a Modena e Reggio Emilia, Erasmus+ e certificazioni Google Cloud di Nicolas Santini."
+>
+  <div class="wrap page">
+    <h1>Studi e certificazioni</h1>
+
+    <h2>Certificazioni</h2>
+    <ul class="cards">
+      {certifications.map(({ data }) => (
+        <li>
+          <h3>{data.name}</h3>
+          <p class="muted small">{certificationDetail(data)}</p>
+          {data.url && <a href={data.url}>Verifica la certificazione</a>}
+          {!data.url && data.status === 'ottenuta' && <Todo>link Credly</Todo>}
+        </li>
+      ))}
+    </ul>
+
+    <h2>Studi</h2>
+    <ol class="timeline">
+      {education.map(({ data }) => (
+        <li>
+          <span class="when">{formatRange(data.start, data.end)}</span>
+          <h3>{data.title}</h3>
+          <p class="muted small">
+            {data.institution}
+            {data.grade && ` · ${data.grade}`}
+          </p>
+          {data.note && <p class="prose">{data.note}</p>}
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>
