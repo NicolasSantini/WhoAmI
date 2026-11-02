@@ -82,7 +82,7 @@ export const raceSchema = z
     title: text,
     status: z.enum(['upcoming', 'done']),
     kind: z.enum(['corsa', 'ocr', 'ultra', 'triathlon', 'bici', 'nuoto']),
-    date: z.coerce.date().optional(),
+    date: z.coerce.date({ error: 'usa il formato AAAA-MM-GG' }).optional(),
     dateLabel: text.optional(),
     dateConfirmed: z.boolean().default(true),
     location: text.optional(),
