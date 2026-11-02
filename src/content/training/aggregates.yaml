@@ -1,0 +1,9 @@
+# Totali annui opzionali, tenuti a mano: solo chilometri, nessun tracciato.
+# Si sommano ai totali delle gare nella scheda personaggio.
+# - id: '2026'
+#   year: 2026
+#   swimKm: 0
+#   bikeKm: 0
+#   runKm: 0
+#   elevationM: 0
+[]
