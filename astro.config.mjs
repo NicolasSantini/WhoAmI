@@ -2,7 +2,7 @@ import sitemap from '@astrojs/sitemap';
 import { defineConfig } from 'astro/config';
 
 // Changing the domain only takes this value.
-const site = 'https://nicolassantini.pages.dev';
+const site = 'https://whoami.santini-nic.workers.dev';
 
 export default defineConfig({
   site,

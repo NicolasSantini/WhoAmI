@@ -68,13 +68,9 @@ Per una gara futura basta `npm run new-race`, che fa qualche domanda e crea lo s
 
 ## Come pubblicare
 
-Ogni push su `main` passa dalla CI di GitHub (`check`, lint, build) e Cloudflare Pages pubblica il sito in un paio di minuti.
+Il sito è già collegato: è il Worker `whoami` su Cloudflare, online su <https://whoami.santini-nic.workers.dev>. Ogni push su `main` passa dalla CI di GitHub (`check`, lint, build) e Cloudflare pubblica il sito in un paio di minuti. La configurazione sta in `wrangler.json`.
 
-Prima configurazione, una volta sola:
-
-1. Su Cloudflare apri **Workers & Pages → Create → Pages → Connect to Git** e scegli questo repo.
-2. Imposta **Framework preset** Astro, **Build command** `npm run build`, **Build output directory** `dist`, **Production branch** `main`.
-3. Per un dominio tuo usa **Custom domains** e cambia `site` in `astro.config.mjs`.
+Per un dominio tuo: aggiungilo al Worker in **Settings → Domains & Routes** e cambia `site` in `astro.config.mjs`.
 
 ## Comandi
 
