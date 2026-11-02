@@ -1,6 +1,7 @@
 ---
 import '../../styles/sport.css';
 import { getCollection } from 'astro:content';
+import Medal from '../../components/Medal.astro';
 import PixelTrophy from '../../components/PixelTrophy.astro';
 import XpBar from '../../components/XpBar.astro';
 import Base from '../../layouts/Base.astro';
@@ -127,7 +128,7 @@ const isoDate = (date?: Date) => date?.toISOString().slice(0, 10);
               </p>
             </div>
             {data.auto?.medal ? (
-              <img class="trophy-medal" src={data.auto.medal.front} alt="" loading="lazy" />
+              <Medal compact front={data.auto.medal.front} alt="" />
             ) : (
               <PixelTrophy />
             )}

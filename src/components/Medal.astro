@@ -1,0 +1,35 @@
+---
+interface Props {
+  front: string;
+  back?: string;
+  alt: string;
+  compact?: boolean;
+}
+
+const { front, back, alt, compact = false } = Astro.props;
+const flippable = Boolean(back) && !compact;
+---
+
+<div class:list={['medal', { 'medal-compact': compact }]} data-medal>
+  <div class="medal-stage">
+    <div class="medal-inner">
+      <img class="medal-front" src={front} alt={compact ? '' : alt} draggable="false" />
+      {flippable && (
+        <img
+          class="medal-back"
+          src={back}
+          alt={`Retro: ${alt}`}
+          aria-hidden="true"
+          draggable="false"
+        />
+      )}
+    </div>
+  </div>
+  {flippable && (
+    <button class="medal-flip" type="button" data-medal-flip hidden>
+      Mostra il retro
+    </button>
+  )}
+</div>
+
+<script src="../scripts/medal.ts"></script>

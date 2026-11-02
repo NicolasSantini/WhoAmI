@@ -1,6 +1,7 @@
 ---
 import '../../../styles/sport.css';
 import { render } from 'astro:content';
+import Medal from '../../../components/Medal.astro';
 import Base from '../../../layouts/Base.astro';
 import { formatDate, formatNumber, formatTime } from '../../../lib/format.ts';
 import { getRaces, raceSvg, type RaceEntry } from '../../../lib/races.ts';
@@ -94,7 +95,11 @@ const photos = data.auto?.photos ?? [];
     {data.auto?.medal && (
       <>
         <h2>Medaglia</h2>
-        <img class="medal-static" src={data.auto.medal.front} alt={`Medaglia di ${data.title}`} />
+        <Medal
+          front={data.auto.medal.front}
+          back={data.auto.medal.back}
+          alt={`Medaglia di ${data.title}`}
+        />
       </>
     )}
 
