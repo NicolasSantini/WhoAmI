@@ -68,7 +68,7 @@ Per una gara futura basta `npm run new-race`, che fa qualche domanda e crea lo s
 
 ## Come pubblicare
 
-Il sito è già collegato: è il Worker `whoami` su Cloudflare, online su <https://whoami.santini-nic.workers.dev>. Ogni push su `main` passa dalla CI di GitHub (`check`, lint, build) e Cloudflare pubblica il sito in un paio di minuti. La configurazione sta in `wrangler.json`.
+Il sito è già collegato: è il Worker `whoami` su Cloudflare, online su <https://whoami.santini-nic.workers.dev>. Ogni push su `main` passa dalla CI di GitHub (`check`, lint, build) e Cloudflare pubblica il sito in un paio di minuti.
 
 Per un dominio tuo: aggiungilo al Worker in **Settings → Domains & Routes** e cambia `site` in `astro.config.mjs`.
 
