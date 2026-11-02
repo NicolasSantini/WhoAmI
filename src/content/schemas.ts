@@ -61,7 +61,8 @@ export const projectSchema = z.object({
 
 export const journeySchema = z.object({
   id: text,
-  date: yearMonth,
+  order: z.number().int(),
+  when: text,
   title: text,
   text: text,
 });

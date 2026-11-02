@@ -1,0 +1,23 @@
+---
+const rows = [
+  '.##########.',
+  '#.########.#',
+  '#.########.#',
+  '.#.######.#.',
+  '...######...',
+  '....####....',
+  '.....##.....',
+  '.....##.....',
+  '...######...',
+  '...######...',
+];
+const pixels = rows.flatMap((row, y) =>
+  [...row].flatMap((pixel, x) => (pixel === '#' ? [{ x, y }] : [])),
+);
+---
+
+<svg class="pixel-trophy" viewBox="0 0 12 10" aria-hidden="true" shape-rendering="crispEdges">
+  {pixels.map(({ x, y }) => (
+    <rect {x} {y} width="1" height="1" fill="currentColor" />
+  ))}
+</svg>

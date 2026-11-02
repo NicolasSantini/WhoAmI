@@ -1,0 +1,31 @@
+---
+import { formatNumber } from '../lib/format.ts';
+import type { levelFor } from '../lib/stats.ts';
+
+interface Props {
+  label: string;
+  stats: ReturnType<typeof levelFor>;
+  tone: 'swim' | 'bike' | 'run';
+}
+
+const { label, stats, tone } = Astro.props;
+const id = `xp-${tone}`;
+---
+
+<div class="xp">
+  <div class="xp-head">
+    <span id={id} class="xp-label">
+      {label}
+    </span>
+    <span class="xp-level">Lv. {stats.level}</span>
+  </div>
+  <progress
+    class={`xp-${tone}`}
+    aria-labelledby={id}
+    max={stats.needed}
+    value={stats.current}
+  ></progress>
+  <span class="xp-points">
+    {formatNumber(stats.current)} / {formatNumber(stats.needed)} XP
+  </span>
+</div>

@@ -1,0 +1,154 @@
+---
+import '../../../styles/sport.css';
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { formatDate, formatNumber, formatTime } from '../../../lib/format.ts';
+import { getRaces, raceSvg, type RaceEntry } from '../../../lib/races.ts';
+import { raceDistance, raceElevation, racePace, raceTime } from '../../../lib/stats.ts';
+
+export async function getStaticPaths() {
+  const races = await getRaces();
+  return races
+    .filter(({ data }) => data.status === 'done')
+    .map((race) => ({ params: { slug: race.id }, props: { race } }));
+}
+
+const { race } = Astro.props as { race: RaceEntry };
+const { data, id } = race;
+const { Content } = await render(race);
+
+const time = raceTime(data);
+const distance = raceDistance(data);
+const elevation = raceElevation(data);
+const pace = racePace(data);
+const results = data.results;
+const ofTotal = (of?: number) => (of ? ` / ${formatNumber(of)}` : '');
+const track = raceSvg(id, 'track');
+const profile = raceSvg(id, 'profile');
+const photos = data.auto?.photos ?? [];
+---
+
+<Base
+  title={data.title}
+  description={`${data.title}${data.date ? `, ${formatDate(data.date)}` : ''}: risultati e tracciato.`}
+>
+  <article class="wrap page sport">
+    <p class="small">
+      <a href="/oltre-il-lavoro/">Oltre il lavoro</a>
+    </p>
+    <h1>{data.title}</h1>
+    <p class="muted">
+      {data.date && formatDate(data.date)}
+      {data.location && ` · ${data.location}`}
+    </p>
+
+    <dl class="race-facts">
+      {time && (
+        <div>
+          <dt>Tempo{results?.officialTime && ' ufficiale'}</dt>
+          <dd>{formatTime(time)}</dd>
+        </div>
+      )}
+      {distance && (
+        <div>
+          <dt>Distanza</dt>
+          <dd>{formatNumber(distance, 2)} km</dd>
+        </div>
+      )}
+      {pace && (
+        <div>
+          <dt>Passo medio</dt>
+          <dd>{pace}</dd>
+        </div>
+      )}
+      {elevation !== undefined && (
+        <div>
+          <dt>Dislivello</dt>
+          <dd>{formatNumber(elevation)} m</dd>
+        </div>
+      )}
+      {results?.overallRank && (
+        <div>
+          <dt>Posizione assoluta</dt>
+          <dd>
+            {formatNumber(results.overallRank)}
+            {ofTotal(results.overallOf)}
+          </dd>
+        </div>
+      )}
+      {results?.categoryRank && (
+        <div>
+          <dt>Categoria{results.category && ` ${results.category}`}</dt>
+          <dd>
+            {formatNumber(results.categoryRank)}
+            {ofTotal(results.categoryOf)}
+          </dd>
+        </div>
+      )}
+    </dl>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {data.auto?.medal && (
+      <>
+        <h2>Medaglia</h2>
+        <img class="medal-static" src={data.auto.medal.front} alt={`Medaglia di ${data.title}`} />
+      </>
+    )}
+
+    {(track || profile) && (
+      <>
+        <h2>Tracciato</h2>
+        <div class="race-maps">
+          {track && (
+            <figure>
+              <Fragment set:html={track} />
+              <figcaption>Percorso, semplificato</figcaption>
+            </figure>
+          )}
+          {profile && (
+            <figure>
+              <Fragment set:html={profile} />
+              <figcaption>Profilo altimetrico</figcaption>
+            </figure>
+          )}
+        </div>
+      </>
+    )}
+
+    {photos.length > 0 && (
+      <>
+        <h2>Foto</h2>
+        <ul class="gallery">
+          {photos.map((photo) => {
+            const alt = data.photoAlts[photo.id] ?? `Foto dalla gara ${data.title}`;
+            return (
+              <li>
+                <a href={photo.webp}>
+                  <img
+                    src={photo.thumb}
+                    alt={alt}
+                    width="480"
+                    height={Math.round((480 * photo.height) / photo.width)}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </>
+    )}
+
+    {data.links.strava && (
+      <p class="actions">
+        <a class="button" href={data.links.strava} rel="noopener">
+          View on Strava
+        </a>
+      </p>
+    )}
+  </article>
+</Base>
