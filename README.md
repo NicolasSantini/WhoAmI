@@ -90,6 +90,9 @@ Per un dominio tuo: aggiungilo al Worker in **Settings → Domains & Routes** e 
 - Nome, email e P.IVA: `src/data/site.ts`
 - CV scaricabile: `public/cv/nicolas-santini-cv.pdf`
 - Formula di XP e livelli: `src/lib/stats.ts`
+- Motore di scorrimento (HUD, pista, passaggi orizzontali): `src/scripts/game.ts`
+- Stile e colori dei mondi: `src/styles/game.css`
+- Numeri in evidenza delle missioni: `highlights` in `src/content/experience/`
 
 ## Privacy
 

@@ -1,63 +1,299 @@
 ---
+import { getCollection } from 'astro:content';
+import Email from '../components/Email.astro';
+import Mission from '../components/Mission.astro';
+import PixelTrophy from '../components/PixelTrophy.astro';
+import Runner from '../components/Runner.astro';
+import Scene from '../components/Scene.astro';
+import Stat from '../components/Stat.astro';
+import Todo from '../components/Todo.astro';
+import { site } from '../data/site.ts';
 import Base from '../layouts/Base.astro';
+import { formatMonth, formatRange } from '../lib/format.ts';
+
+const experiences = (await getCollection('experience')).sort((a, b) =>
+  a.data.start.localeCompare(b.data.start),
+);
+const skills = (await getCollection('skills')).sort((a, b) => a.data.order - b.data.order);
+const education = (await getCollection('education')).sort((a, b) =>
+  b.data.start.localeCompare(a.data.start),
+);
+const certifications = (await getCollection('certifications')).sort((a, b) =>
+  b.data.status.localeCompare(a.data.status),
+);
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const volunteering = (await getCollection('volunteering')).sort((a, b) =>
+  b.data.start.localeCompare(a.data.start),
+);
+
+const chapters = [
+  { id: 'giocatore', label: 'Giocatore 1' },
+  { id: 'missioni', label: 'Missioni' },
+  { id: 'inventario', label: 'Inventario' },
+  { id: 'trofei', label: 'Trofei' },
+  { id: 'co-op', label: 'Co-op: formazione AI' },
+  { id: 'side-quest', label: 'Side quest' },
+  { id: 'continua', label: 'Continua' },
+];
 ---
 
-<Base description="Freelance Cloud & Data Engineer a Modena: pipeline dati su Google Cloud, migrazioni e formazione AI per aziende e scuole.">
-  <div class="wrap page">
-    <h1>Nicolas Santini</h1>
-    <p class="lead">
-      Freelance Cloud &amp; Data Engineer a Modena. Progetto, costruisco e gestisco pipeline dati su
-      Google Cloud, con Python, SQL e Airflow. In parallelo progetto e tengo formazione pratica
-      sull'AI generativa per aziende e scuole.
-    </p>
-    <div class="actions">
-      <a class="button primary" href="/contatti/">
-        Contattami
-      </a>
-      <a class="button" href="/cv/nicolas-santini-cv.pdf" download>
-        Scarica il CV (PDF)
+<Base
+  description="Nicolas Santini, Freelance Cloud & Data Engineer a Modena: pipeline dati su Google Cloud, migrazioni e formazione AI per aziende e scuole."
+  chapters={chapters}
+>
+  <section class="hero" data-progress data-chapter="Start" data-world="start">
+    <div class="hero-sticky">
+      <Scene variant="city" />
+      <div class="hero-copy wrap">
+        <p class="kicker">Player 1 ready · {site.location}</p>
+        <h1>
+          Nicolas
+          <br />
+          Santini
+        </h1>
+        <p class="lead">
+          Freelance Cloud &amp; Data Engineer. Costruisco pipeline dati su Google Cloud e porto le
+          aziende a usare davvero l'AI.
+        </p>
+        <div class="actions">
+          <a class="button" href="#continua">
+            Contattami
+          </a>
+          <a class="button ghost" href="/cv/nicolas-santini-cv.pdf" download>
+            Scarica il CV
+          </a>
+        </div>
+      </div>
+      <a class="press-start" href="#giocatore">
+        Scorri per iniziare
       </a>
     </div>
+  </section>
 
-    <ul class="facts" aria-label="Risultati in breve">
-      <li>
-        <strong>15M+</strong> record cliente nella migrazione MDM su Google Cloud
-      </li>
-      <li>
-        <strong>~90%</strong> di tempo query in meno, da MongoDB a BigQuery
-      </li>
-      <li>
-        <strong>50+</strong> account di analytics seguiti
-      </li>
-      <li>
-        <strong>38</strong> sessioni di formazione AI per docenti in programma
-      </li>
-    </ul>
+  <section class="chapter" id="giocatore" data-chapter="Giocatore 1" data-world="player">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">Mondo 1</p>
+        <h2>Giocatore 1</h2>
+      </div>
+      <div class="player">
+        <aside class="panel" data-reveal="pop">
+          <Runner portrait />
+          <dl class="sheet-list">
+            <div>
+              <dt>Classe</dt>
+              <dd>Cloud &amp; Data Engineer</dd>
+            </div>
+            <div>
+              <dt>Base</dt>
+              <dd>{site.location}</dd>
+            </div>
+            <div>
+              <dt>Modalità</dt>
+              <dd>Remoto o ibrido</dd>
+            </div>
+            <div>
+              <dt>Stack</dt>
+              <dd>GCP, Python, SQL, Airflow</dd>
+            </div>
+            <div>
+              <dt>Lingue</dt>
+              <dd>IT, EN C1, FR e ES A2</dd>
+            </div>
+          </dl>
+        </aside>
+        <div data-reveal="right">
+          <div class="prose">
+            <p class="lead">
+              Sono un Cloud &amp; Data Engineer indipendente, in Partita IVA in regime forfettario,
+              con quasi tre anni di esperienza in produzione su Google Cloud.
+            </p>
+            <p>
+              Progetto, costruisco e gestisco pipeline ETL/ELT ed event-driven in Python e SQL.
+              Accanto all'ingegneria progetto e tengo formazione pratica sull'AI generativa per
+              aziende e scuole.
+            </p>
+          </div>
+          <div class="stats">
+            <Stat value="15M+" label="record cliente migrati" />
+            <Stat value="~90%" label="tempo query in meno" />
+            <Stat value="50+" label="account di analytics" />
+            <Stat value="38" label="sessioni di formazione AI" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <h2>Di cosa mi occupo</h2>
-    <ul class="cards">
-      <li>
-        <h3>Data engineering su Google Cloud</h3>
+  <section class="hs" id="missioni" data-hscroll data-chapter="Missioni" data-world="missions">
+    <div class="hs-sticky">
+      <div class="hs-head">
+        <p class="kicker">Mondo 2 · Esperienze</p>
+        <h2>Missioni</h2>
+        <p class="hs-counter" data-hs-counter aria-hidden="true"></p>
+      </div>
+      <div class="hs-track">
+        {experiences.map((entry, index) => (
+          <Mission {entry} {index} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="inventario" data-chapter="Inventario" data-world="inventory">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">Mondo 3 · Competenze</p>
+        <h2>Inventario</h2>
+      </div>
+      <div class="grid" data-reveal data-stagger>
+        {skills.map(({ data }) => (
+          <div class="panel slot">
+            <h3>{data.group}</h3>
+            <ul class="tags">
+              {data.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="trofei" data-chapter="Trofei" data-world="trophies">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">Mondo 4 · Studi e certificazioni</p>
+        <h2>Trofei</h2>
+      </div>
+      <div class="grid" data-reveal data-stagger>
+        {certifications.map(({ data }) => (
+          <article class:list={['panel trophy-card', { locked: data.status !== 'ottenuta' }]}>
+            <PixelTrophy />
+            <div>
+              <p class="kicker">{data.status === 'ottenuta' ? 'Sbloccato' : 'In preparazione'}</p>
+              <h3>{data.name}</h3>
+              <p class="when">{data.date ? formatMonth(data.date) : `Obiettivo ${data.target}`}</p>
+              {data.url && <a href={data.url}>Verifica</a>}
+              {!data.url && data.status === 'ottenuta' && <Todo>link Credly</Todo>}
+            </div>
+          </article>
+        ))}
+        {education.map(({ data }) => (
+          <article class="panel trophy-card">
+            <PixelTrophy />
+            <div>
+              <p class="kicker">Sbloccato</p>
+              <h3>{data.title}</h3>
+              <p class="when">
+                {data.institution}
+                {data.grade && ` · ${data.grade}`}
+                <br />
+                {formatRange(data.start, data.end)}
+              </p>
+              {data.note && <p class="small">{data.note}</p>}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="co-op" data-chapter="Co-op: formazione AI" data-world="coop">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">Mondo 5 · Formazione AI</p>
+        <h2>Modalità co-op</h2>
         <p>
-          BigQuery, Dataflow, Cloud Run, Cloud Functions, Cloud Workflows, Pub/Sub e Cloud SQL per
-          pipeline ETL/ELT ed event-driven in produzione.
+          Formazione pratica sull'AI generativa per aziende e scuole: le persone lavorano su
+          materiali reali, li costruiscono e li verificano.
         </p>
-        <a href="/esperienze/">Vedi le esperienze</a>
-      </li>
-      <li>
-        <h3>Formazione AI</h3>
-        <p>
-          Percorsi pratici in cui le persone costruiscono e verificano materiali reali, per team
-          aziendali e per docenti.
-        </p>
-        <a href="/formazione-ai/">Come lavoro</a>
-      </li>
-    </ul>
+      </div>
+      <div class="grid" data-reveal data-stagger>
+        <article class="panel">
+          <p class="kicker">Con MakerDojo · da ottobre 2026</p>
+          <h3>Docenti</h3>
+          <div class="stats">
+            <Stat value="38" label="sessioni" />
+            <Stat value="19" label="gruppi" />
+          </div>
+          <p class="small">
+            Percorso su Google Gemini e NotebookLM progettato da zero per i docenti di una rete di
+            scuole pubbliche di Piacenza, su quattro aree disciplinari e tre livelli scolastici.
+            Sessioni condivise con un secondo formatore.
+          </p>
+        </article>
+        <article class="panel">
+          <p class="kicker">Tecnomat · durante WEBRANKING</p>
+          <h3>Senior aziendali</h3>
+          <div class="stats">
+            <Stat value="20" label="senior, circa" />
+            <Stat value="1" label="giornata in presenza" />
+          </div>
+          <p class="small">
+            AI nei processi aziendali e automazione delle attività, con chiusura in un workshop
+            pratico.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-    <h2>Certificazione</h2>
-    <p>Google Cloud Professional Machine Learning Engineer, gennaio 2026.</p>
-    <p>
-      <a href="/studi/">Studi e certificazioni</a>
-    </p>
-  </div>
+  <section class="chapter" id="side-quest" data-chapter="Side quest" data-world="quest">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">Mondo 6 · Progetti e volontariato</p>
+        <h2>Side quest</h2>
+      </div>
+      <div class="grid" data-reveal data-stagger>
+        {projects.map(({ data }) => (
+          <article class="panel">
+            <p class="kicker">Progetto</p>
+            <h3>{data.name}</h3>
+            <p class="small">{data.description}</p>
+          </article>
+        ))}
+        {volunteering.map(({ data }) => (
+          <article class="panel">
+            <p class="kicker">Volontariato</p>
+            <h3>{data.role}</h3>
+            <p class="when">
+              {data.organisation}
+              <br />
+              {formatRange(data.start, data.end)}
+            </p>
+            <p class="small">{data.note}</p>
+          </article>
+        ))}
+      </div>
+      <div class="panel portal" data-reveal="pop">
+        <p class="kicker">Livello segreto</p>
+        <h2>Oltre il lavoro</h2>
+        <p>Gare, medaglie e la strada verso l'Ironman di Cervia.</p>
+        <a class="button" href="/oltre-il-lavoro/">
+          Entra nel livello bonus
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter ending" id="continua" data-chapter="Continua" data-world="end">
+    <div class="wrap" data-reveal="pop">
+      <p class="kicker">Fine del livello</p>
+      <h2>Continua?</h2>
+      <p class="lead">Hai una pipeline da costruire o un team da formare? Parliamone.</p>
+      <p>
+        <Email />
+      </p>
+      <div class="actions">
+        <a class="button" href={site.linkedin} rel="noopener">
+          LinkedIn
+        </a>
+        <a class="button ghost" href="/cv/nicolas-santini-cv.pdf" download>
+          Scarica il CV
+        </a>
+      </div>
+    </div>
+  </section>
 </Base>

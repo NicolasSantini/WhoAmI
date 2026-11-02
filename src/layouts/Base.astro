@@ -1,37 +1,31 @@
 ---
-import '../styles/global.css';
+import '../styles/game.css';
 import Email from '../components/Email.astro';
+import Runner from '../components/Runner.astro';
 import { site } from '../data/site.ts';
 
 interface Props {
   title?: string;
   description: string;
   image?: string;
+  chapters?: { id: string; label: string }[];
 }
 
-const { title, description, image = '/og.png' } = Astro.props;
+const { title, description, image = '/og.png', chapters = [] } = Astro.props;
 const pageTitle = title ? `${title} · ${site.name}` : `${site.name} · ${site.role}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
-
-const nav = [
-  ['/chi-sono/', 'Chi sono'],
-  ['/esperienze/', 'Esperienze'],
-  ['/studi/', 'Studi e certificazioni'],
-  ['/competenze/', 'Competenze'],
-  ['/formazione-ai/', 'Formazione AI'],
-  ['/contatti/', 'Contatti'],
-];
-const current = (href: string) => Astro.url.pathname.startsWith(href);
+const inSport = Astro.url.pathname.startsWith('/oltre-il-lavoro');
 ---
 
 <!doctype html>
-<html lang="it">
+<html lang="it" data-world="start">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#0d1026" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -43,33 +37,59 @@ const current = (href: string) => Astro.url.pathname.startsWith(href);
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline src="/boot.js"></script>
     <slot name="head" />
   </head>
   <body>
     <a class="skip-link" href="#contenuto">
       Vai al contenuto
     </a>
-    <header class="site-header">
-      <div class="wrap">
-        <a class="brand" href="/">
-          {site.name}
-        </a>
-        <nav class="site-nav" aria-label="Principale">
-          <ul>
-            {nav.map(([href, label]) => (
-              <li>
-                <a href={href} aria-current={current(href) ? 'page' : undefined}>
-                  {label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+    <header class="hud">
+      <a class="hud-brand" href="/" aria-label={`${site.name}, home`}>
+        N.S
+      </a>
+      <div class="hud-status">
+        <span class="hud-chapter" data-chapter-label>
+          {title ?? 'Start'}
+        </span>
+        <progress
+          class="hud-xp"
+          data-xp
+          max="100"
+          value="0"
+          aria-label="Avanzamento nella pagina"
+        ></progress>
       </div>
+      <button class="button ghost hud-menu" type="button" popovertarget="menu">
+        Menu
+      </button>
     </header>
+
+    <nav class="menu panel" id="menu" popover aria-label="Capitoli">
+      <ul>
+        {chapters.map(({ id, label }) => (
+          <li>
+            <a href={`#${id}`}>{label}</a>
+          </li>
+        ))}
+        {chapters.length > 0 && <li class="menu-gap" aria-hidden="true" />}
+        <li>
+          <a href={inSport ? '/' : '/oltre-il-lavoro/'}>
+            {inSport ? 'Torna al lavoro' : 'Oltre il lavoro'}
+          </a>
+        </li>
+        <li>
+          <a href="/privacy/">Privacy</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="starfield far" data-stars="0.06" aria-hidden="true"></div>
+    <div class="starfield near" data-stars="0.16" aria-hidden="true"></div>
     <main id="contenuto">
       <slot />
     </main>
+
     <footer class="site-footer">
       <div class="wrap">
         <p>
@@ -81,5 +101,13 @@ const current = (href: string) => Astro.url.pathname.startsWith(href);
         </p>
       </div>
     </footer>
+
+    <div class="lane" data-lane aria-hidden="true">
+      <div class="lane-ground"></div>
+      <div class="flags" data-flags></div>
+      <Runner />
+    </div>
+    <p class="toast" data-toast aria-hidden="true"></p>
+    <script src="../scripts/game.ts"></script>
   </body>
 </html>

@@ -1,13 +1,12 @@
 ---
-import '../../styles/sport.css';
 import { getCollection } from 'astro:content';
-import Medal from '../../components/Medal.astro';
-import PixelTrophy from '../../components/PixelTrophy.astro';
+import RaceReel from '../../components/RaceReel.astro';
+import Scene from '../../components/Scene.astro';
+import Stat from '../../components/Stat.astro';
 import XpBar from '../../components/XpBar.astro';
 import Base from '../../layouts/Base.astro';
-import { formatDate, formatNumber, formatTime } from '../../lib/format.ts';
 import { getRaces, raceDateLabel } from '../../lib/races.ts';
-import { characterSheet, raceDistance, racePace, raceTime } from '../../lib/stats.ts';
+import { characterSheet } from '../../lib/stats.ts';
 
 const races = await getRaces();
 const upcoming = races.filter(({ data }) => data.status === 'upcoming');
@@ -20,129 +19,166 @@ const sheet = characterSheet(
   training.map(({ data }) => data),
 );
 const isoDate = (date?: Date) => date?.toISOString().slice(0, 10);
+
+const chapters = [
+  { id: 'scheda', label: 'Scheda personaggio' },
+  { id: 'percorso', label: 'Il mio percorso' },
+  { id: 'prossime', label: 'Prossime gare' },
+  { id: 'ironman', label: "Verso l'Ironman" },
+  { id: 'gare', label: 'Gare fatte' },
+];
 ---
 
 <Base
   title="Oltre il lavoro"
   description="Il percorso sportivo di Nicolas Santini: gare fatte, prossimi obiettivi e la strada verso l'Ironman di Cervia."
+  chapters={chapters}
 >
-  <div class="wrap page sport">
-    <h1>Oltre il lavoro</h1>
-    <p class="lead">
-      Un ingegnere che tratta il proprio corpo come un progetto a lungo termine: misurato, iterato e
-      spinto un po' più in là a ogni gara, fino all'Ironman di Cervia.
-    </p>
-
-    <section class="sheet" aria-labelledby="scheda">
-      <div class="sheet-head">
-        <h2 id="scheda">Scheda personaggio</h2>
-        <span class="sheet-class">Multisport amatore · Livello {sheet.overall.level}</span>
+  <section class="hero" data-progress data-chapter="Livello bonus" data-world="start">
+    <div class="hero-sticky">
+      <Scene variant="coast" />
+      <div class="hero-copy wrap">
+        <p class="kicker">Livello bonus</p>
+        <h1>
+          Oltre il
+          <br />
+          lavoro
+        </h1>
+        <p class="lead">
+          Un ingegnere che tratta il proprio corpo come un progetto a lungo termine: misurato,
+          iterato e spinto un po' più in là a ogni gara.
+        </p>
       </div>
-      <dl class="sheet-stats">
-        <div>
-          <dt>Km</dt>
-          <dd>{formatNumber(sheet.totals.km)}</dd>
-        </div>
-        <div>
-          <dt>Dislivello</dt>
-          <dd>{formatNumber(sheet.totals.elevation)} m</dd>
-        </div>
-        <div>
-          <dt>Gare</dt>
-          <dd>{sheet.totals.races}</dd>
-        </div>
-        <div>
-          <dt>Medaglie</dt>
-          <dd>{sheet.totals.medals}</dd>
-        </div>
-      </dl>
-      <XpBar label="Nuoto" tone="swim" stats={sheet.disciplines.swim} />
-      <XpBar label="Bici" tone="bike" stats={sheet.disciplines.bike} />
-      <XpBar label="Corsa" tone="run" stats={sheet.disciplines.run} />
-    </section>
+      <a class="press-start" href="#scheda">
+        Scorri per partire
+      </a>
+    </div>
+  </section>
 
-    <h2>Il mio percorso</h2>
-    <ol class="timeline">
-      {journey.map(({ data }) => (
-        <li>
-          <span class="when">{data.when}</span>
-          <h3>{data.title}</h3>
-          <p class="prose">{data.text}</p>
-        </li>
-      ))}
-    </ol>
+  <section class="chapter" id="scheda" data-chapter="Scheda personaggio" data-world="player">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">Multisport amatore · Livello {sheet.overall.level}</p>
+        <h2>Scheda personaggio</h2>
+      </div>
+      <div class="panel" data-reveal="pop">
+        <div class="stats">
+          <Stat value={String(Math.round(sheet.totals.km))} label="km" />
+          <Stat value={String(sheet.totals.elevation)} label="metri di dislivello" />
+          <Stat value={String(sheet.totals.races)} label="gare" />
+          <Stat value={String(sheet.totals.medals)} label="medaglie" />
+        </div>
+        <XpBar label="Nuoto" tone="swim" stats={sheet.disciplines.swim} />
+        <XpBar label="Bici" tone="bike" stats={sheet.disciplines.bike} />
+        <XpBar label="Corsa" tone="run" stats={sheet.disciplines.run} />
+      </div>
+    </div>
+  </section>
 
-    <h2>Prossime gare</h2>
-    <ul class="race-grid">
-      {upcoming.map(({ data }) => (
-        <li>
-          <h3>{data.title}</h3>
-          <p class="muted small">
-            {raceDateLabel(data)}
-            {data.location && ` · ${data.location}`}
-          </p>
-          {data.goal && <p class="race-goal small">{data.goal}</p>}
-          {data.date && (
-            <p
-              class="countdown"
-              data-countdown={isoDate(data.date)}
-              data-approximate={data.dateConfirmed ? undefined : ''}
-              hidden
-            />
-          )}
-        </li>
-      ))}
-    </ul>
-
-    <h3>Verso l'Ironman</h3>
-    <ol class="quest">
-      {roadmap.map(({ data }) => (
-        <li
-          class:list={{
-            'is-done': data.status === 'done',
-            'is-final': data.finalGoal,
-          }}
-        >
-          <span class="quest-mark" aria-hidden="true" />
-          <span>
-            {data.title}
-            <span class="muted small">
-              {' · '}
-              {data.status === 'done' ? 'fatta' : raceDateLabel(data)}
-            </span>
-          </span>
-        </li>
-      ))}
-    </ol>
-
-    <h2>Gare fatte</h2>
-    <ul class="race-grid">
-      {done.map(({ id, data }) => (
-        <li class="trophy">
-          <div class="trophy-top">
-            <div>
+  <section class="chapter" id="percorso" data-chapter="Il mio percorso" data-world="missions">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">La mappa</p>
+        <h2>Il mio percorso</h2>
+      </div>
+      <ol class="path">
+        {journey.map(({ data }, index) => (
+          <li data-reveal={index % 2 ? 'right' : 'left'}>
+            <div class="panel">
+              <p class="kicker">{data.when}</p>
               <h3>{data.title}</h3>
-              <p class="muted small">
-                {data.date && formatDate(data.date)}
-                {data.location && ` · ${data.location}`}
-              </p>
+              <p class="small">{data.text}</p>
             </div>
-            {data.auto?.medal ? (
-              <Medal compact front={data.auto.medal.front} alt="" />
-            ) : (
-              <PixelTrophy />
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="hs" id="prossime" data-hscroll data-chapter="Prossime gare" data-world="coop">
+    <div class="hs-sticky">
+      <div class="hs-head">
+        <p class="kicker">Selezione livello</p>
+        <h2>Prossime gare</h2>
+        <p class="hs-counter" data-hs-counter aria-hidden="true"></p>
+      </div>
+      <div class="hs-track">
+        {upcoming.map(({ data }) => (
+          <article class:list={['hs-card panel level', { boss: data.finalGoal }]}>
+            <p class="kicker">{data.finalGoal ? 'Boss finale' : data.kind}</p>
+            <h3>{data.title}</h3>
+            <p class="when">
+              {raceDateLabel(data)}
+              {data.location && ` · ${data.location}`}
+            </p>
+            {data.goal && <p class="small">{data.goal}</p>}
+            {data.date && (
+              <p
+                class="countdown"
+                data-countdown={isoDate(data.date)}
+                data-approximate={data.dateConfirmed ? undefined : ''}
+                hidden
+              />
             )}
-          </div>
-          {raceTime(data) && <p class="trophy-time">{formatTime(raceTime(data) ?? '')}</p>}
-          <p class="small muted">
-            {raceDistance(data) && `${formatNumber(raceDistance(data) ?? 0, 1)} km`}
-            {racePace(data) && ` · ${racePace(data)}`}
-          </p>
-          <a href={`/oltre-il-lavoro/gare/${id}/`}>Dettagli della gara</a>
-        </li>
-      ))}
-    </ul>
-  </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter" id="ironman" data-chapter="Verso l'Ironman" data-world="trophies">
+    <div class="wrap">
+      <div class="chapter-head" data-reveal="left">
+        <p class="kicker">Quest principale</p>
+        <h2>Verso l'Ironman</h2>
+      </div>
+      <div class="panel prose" data-reveal="pop">
+        <ol class="quest">
+          {roadmap.map(({ data }) => (
+            <li
+              class:list={{
+                'is-done': data.status === 'done',
+                'is-final': data.finalGoal,
+              }}
+            >
+              <span class="quest-mark" aria-hidden="true" />
+              <span>
+                {data.title}
+                <span class="muted small">
+                  {' · '}
+                  {data.status === 'done' ? 'fatta' : raceDateLabel(data)}
+                </span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="hs" id="gare" data-hscroll data-chapter="Gare fatte" data-world="quest">
+    <div class="hs-sticky">
+      <div class="hs-head">
+        <p class="kicker">Sala trofei</p>
+        <h2>Gare fatte</h2>
+        <p class="hs-counter" data-hs-counter aria-hidden="true"></p>
+      </div>
+      <div class="hs-track">
+        <RaceReel races={done} />
+      </div>
+    </div>
+  </section>
+
+  <section class="chapter ending" data-chapter="Fine del livello" data-world="end">
+    <div class="wrap" data-reveal="pop">
+      <h2>Continua?</h2>
+      <div class="actions">
+        <a class="button" href="/">
+          Torna al lavoro
+        </a>
+      </div>
+    </div>
+  </section>
 </Base>
 
 <script src="../../scripts/countdown.ts"></script>

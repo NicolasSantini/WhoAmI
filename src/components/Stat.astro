@@ -1,0 +1,18 @@
+---
+interface Props {
+  value: string;
+  label: string;
+}
+
+const { value, label } = Astro.props;
+const [, prefix = '', digits = '', suffix = ''] = value.match(/^(\D*)(\d+)(.*)$/) ?? [];
+---
+
+<div class="stat">
+  <strong>
+    {prefix}
+    <span data-count={digits}>{digits}</span>
+    {suffix}
+  </strong>
+  <span>{label}</span>
+</div>

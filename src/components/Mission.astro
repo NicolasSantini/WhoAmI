@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatRange } from '../lib/format.ts';
+import Stat from './Stat.astro';
+
+interface Props {
+  entry: CollectionEntry<'experience'>;
+  index: number;
+}
+
+const { entry, index } = Astro.props;
+const { data, id } = entry;
+const logId = `log-${id}`;
+---
+
+<article class="hs-card panel mission">
+  <p class="kicker">
+    Missione {index + 1}
+    <span class:list={['badge', { live: !data.end }]}>{data.end ? 'Completata' : 'In corso'}</span>
+  </p>
+  <h3>{data.company}</h3>
+  <p class="mission-role">{data.role}</p>
+  <p class="when">
+    {formatRange(data.start, data.end)}
+    {data.engagement && ` · ${data.engagement}`}
+  </p>
+  <p class="small">{data.summary}</p>
+  {data.highlights.length > 0 && (
+    <div class="stats">
+      {data.highlights.map((item) => (
+        <Stat value={item.value} label={item.label} />
+      ))}
+    </div>
+  )}
+  <button class="button ghost" type="button" popovertarget={logId}>
+    Apri il log
+  </button>
+
+  <div class="log panel" id={logId} popover>
+    <button
+      class="button ghost log-close"
+      type="button"
+      popovertarget={logId}
+      popovertargetaction="hide"
+    >
+      Chiudi
+    </button>
+    <h4>
+      {data.role} · {data.company}
+    </h4>
+    <p class="when">{formatRange(data.start, data.end)}</p>
+    <p>{data.summary}</p>
+    {data.sections.map((section) => (
+      <>
+        {section.title && <h5>{section.title}</h5>}
+        <ul>
+          {section.points.map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+      </>
+    ))}
+  </div>
+</article>

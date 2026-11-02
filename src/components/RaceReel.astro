@@ -1,0 +1,66 @@
+---
+import { formatDate, formatNumber, formatTime } from '../lib/format.ts';
+import type { RaceEntry } from '../lib/races.ts';
+import { raceDistance, racePace, raceTime } from '../lib/stats.ts';
+import Medal from './Medal.astro';
+import PixelTrophy from './PixelTrophy.astro';
+
+interface Props {
+  races: RaceEntry[];
+}
+
+const { races } = Astro.props;
+---
+
+{races.map(({ id, data }) => {
+  const time = raceTime(data);
+  const distance = raceDistance(data);
+  const pace = racePace(data);
+  return (
+    <>
+      <article class="hs-card panel">
+        <div class="trophy-top">
+          <div>
+            <p class="kicker">Gara completata</p>
+            <h3>{data.title}</h3>
+            <p class="when">
+              {data.date && formatDate(data.date)}
+              {data.location && ` · ${data.location}`}
+            </p>
+          </div>
+          {data.auto?.medal ? (
+            <Medal compact front={data.auto.medal.front} alt="" />
+          ) : (
+            <PixelTrophy />
+          )}
+        </div>
+        {time && <p class="race-time">{formatTime(time)}</p>}
+        <p class="small muted">
+          {distance && `${formatNumber(distance, 1)} km`}
+          {pace && ` · ${pace}`}
+        </p>
+        <a class="button ghost" href={`/oltre-il-lavoro/gare/${id}/`}>
+          Dettagli
+        </a>
+      </article>
+      {(data.auto?.photos ?? []).map((photo) => (
+        <article class="hs-card panel photo-card">
+          <figure>
+            <picture>
+              <source srcset={photo.avif} type="image/avif" />
+              <img
+                src={photo.webp}
+                alt={data.photoAlts[photo.id] ?? `Foto dalla gara ${data.title}`}
+                width={photo.width}
+                height={photo.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+            <figcaption>{data.title}</figcaption>
+          </figure>
+        </article>
+      ))}
+    </>
+  );
+})}

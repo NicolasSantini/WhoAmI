@@ -4,6 +4,13 @@ engagement: Contratto
 start: 2026-03
 end: 2026-09
 summary: Unico responsabile tecnico della migrazione di una piattaforma MDM legacy Informatica PowerCenter verso un'architettura cloud-native su Google Cloud, per un grande gruppo retail italiano multi-insegna con 8 insegne e oltre 15 milioni di record cliente.
+highlights:
+  - value: 15M+
+    label: record cliente
+  - value: '8'
+    label: insegne
+  - value: '0'
+    label: interruzioni di servizio
 sections:
   - points:
       - Ho ridisegnato il livello dati attorno a pipeline serverless event-driven su Cloud Run, Cloud Functions e Cloud Workflows, sostituendo l'ETL batch schedulato con un'elaborazione quasi in tempo reale che reagisce ai cambiamenti dei dati sorgente.

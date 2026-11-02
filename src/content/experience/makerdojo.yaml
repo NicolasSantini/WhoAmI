@@ -3,6 +3,13 @@ company: MakerDojo
 engagement: Freelance
 start: 2026-10
 summary: Incarico freelance, svolto in parallelo all'ingegneria, per un'organizzazione educativa che porta coding, robotica e AI nelle scuole.
+highlights:
+  - value: '38'
+    label: sessioni
+  - value: '19'
+    label: gruppi di docenti
+  - value: 4h
+    label: workshop in presenza
 sections:
   - points:
       - Ho progettato da zero, su richiesta del cliente, un percorso pratico di AI generativa (Google Gemini, NotebookLM) per i docenti di una rete di scuole pubbliche di Piacenza, poi rivisto sui vincoli della scuola dopo la prima revisione.

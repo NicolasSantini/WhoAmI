@@ -24,6 +24,7 @@ const id = `xp-${tone}`;
     aria-labelledby={id}
     max={stats.needed}
     value={stats.current}
+    data-value={stats.current}
   ></progress>
   <span class="xp-points">
     {formatNumber(stats.current)} / {formatNumber(stats.needed)} XP

@@ -17,6 +17,7 @@ export const experienceSchema = z.object({
   start: yearMonth,
   end: yearMonth.optional(),
   summary: text,
+  highlights: z.array(z.object({ value: text, label: text })).default([]),
   sections: z.array(z.object({ title: text.optional(), points: z.array(text).min(1) })).min(1),
 });
 

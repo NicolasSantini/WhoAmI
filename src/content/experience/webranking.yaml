@@ -3,6 +3,11 @@ company: WEBRANKING
 start: 2024-04
 end: 2026-03
 summary: Data engineering su oltre 50 account di analytics dei clienti, dalle pipeline di ingestion ad alto volume al ridisegno dello stack analitico principale.
+highlights:
+  - value: 50+
+    label: account di analytics
+  - value: ~90%
+    label: tempo query in meno
 sections:
   - title: Ingestion ad alto volume, event-driven
     points:

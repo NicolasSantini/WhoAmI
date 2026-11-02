@@ -1,0 +1,118 @@
+---
+interface Props {
+  portrait?: boolean;
+}
+
+const { portrait = false } = Astro.props;
+
+// h hair, s skin, t shirt, d shirt shade, p shorts, o shoes
+const frames = [
+  [
+    '.....hhhh.....',
+    '....hhhhhh....',
+    '....hsssss....',
+    '....ssssss....',
+    '.....ssss.....',
+    '....tttttt....',
+    '...tdttttts...',
+    '..stdtttt.ss..',
+    '..s.tttt......',
+    '....pppp......',
+    '...ppppppp....',
+    '..ppp...ppp...',
+    '.ss......ss...',
+    'ss........s...',
+    'oo........ooo.',
+  ],
+  [
+    '.....hhhh.....',
+    '....hhhhhh....',
+    '....hsssss....',
+    '....ssssss....',
+    '.....ssss.....',
+    '....tttttt....',
+    '....dttttss...',
+    '....dtttt.s...',
+    '...ss.ttt.....',
+    '....pppp......',
+    '....pppp......',
+    '.....ppp......',
+    '.....sss......',
+    '......sss.....',
+    '.....oooo.....',
+  ],
+  [
+    '.....hhhh.....',
+    '....hhhhhh....',
+    '....hsssss....',
+    '....ssssss....',
+    '.....ssss.....',
+    '....tttttt....',
+    '...stttttd....',
+    '..ss.ttttd.s..',
+    '......tttt.s..',
+    '......pppp....',
+    '....ppppppp...',
+    '...ppp...ppp..',
+    '...ss......ss.',
+    '...s........ss',
+    '.ooo........oo',
+  ],
+  [
+    '.....hhhh.....',
+    '....hhhhhh....',
+    '....hsssss....',
+    '....ssssss....',
+    '.....ssss.....',
+    '....tttttt....',
+    '...sstttttd...',
+    '...s.ttttd....',
+    '.....ttt.ss...',
+    '......pppp....',
+    '......pppp....',
+    '......ppp.....',
+    '......sss.....',
+    '.....sss......',
+    '.....oooo.....',
+  ],
+];
+const idle = [
+  '.....hhhh.....',
+  '....hhhhhh....',
+  '....hsssss....',
+  '....ssssss....',
+  '.....ssss.....',
+  '....tttttt....',
+  '...tdttttdt...',
+  '...s.tttt.s...',
+  '...s.tttt.s...',
+  '.....pppp.....',
+  '.....pppp.....',
+  '.....s..s.....',
+  '.....s..s.....',
+  '.....s..s.....',
+  '....oo..oo....',
+];
+const pixels = (rows: string[]) =>
+  rows.flatMap((row, y) =>
+    [...row].flatMap((color, x) => (color === '.' ? [] : [{ x, y, color }])),
+  );
+const sprites = [...frames.map(pixels), pixels(idle)];
+---
+
+<svg
+  class={portrait ? 'player-sprite' : 'runner'}
+  data-runner={portrait ? undefined : ''}
+  data-frame="4"
+  viewBox="0 0 14 15"
+  aria-hidden="true"
+  shape-rendering="crispEdges"
+>
+  {sprites.map((sprite, frame) => (
+    <g class={`frame frame-${frame}`}>
+      {sprite.map(({ x, y, color }) => (
+        <rect class={`c-${color}`} {x} {y} width="1" height="1" />
+      ))}
+    </g>
+  ))}
+</svg>
