@@ -34,7 +34,6 @@
     "tesseract.js": "7.0.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.72.1",
-    "wrangler": "4.156.2",
     "yaml": "2.9.1"
   }
 }
