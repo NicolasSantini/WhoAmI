@@ -19,6 +19,21 @@ export const experienceSchema = z.object({
   summary: text,
   highlights: z.array(z.object({ value: text, label: text })).default([]),
   pipeline: z.array(z.object({ stage: text, detail: text })).default([]),
+  rails: z
+    .object({
+      from: z.object({ name: text, detail: text }),
+      to: z.object({ name: text, detail: text }),
+      check: text,
+      cutover: text,
+    })
+    .optional(),
+  matrix: z
+    .object({
+      rows: z.array(text).min(1),
+      columns: z.union([z.number().int().positive(), z.array(text).min(1)]),
+      columnsLabel: text,
+    })
+    .optional(),
   sections: z.array(z.object({ title: text.optional(), points: z.array(text).min(1) })).min(1),
 });
 

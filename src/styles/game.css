@@ -1025,7 +1025,7 @@ html:not(.anim) .hs-counter {
   font-weight: 650;
 }
 
-.pipeline-title {
+.visual-title {
   margin: 0 0 0.5rem;
   color: var(--accent);
   font-family: var(--pixel);
@@ -1100,6 +1100,228 @@ html.anim .hs-card.is-active .pipeline::after {
 @keyframes packet {
   to {
     top: calc(100% - 1rem);
+  }
+}
+
+.rails {
+  display: grid;
+  gap: 0.375rem;
+  margin: 0 0 1rem;
+}
+
+.rail {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.35rem 0.6rem 0.5rem;
+  background: var(--panel-soft);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.rail strong {
+  font-weight: 650;
+}
+
+.rail span,
+.rail-check,
+.rail-cutover {
+  color: var(--muted);
+}
+
+.rail-track {
+  position: relative;
+  height: 0.5rem;
+  margin-top: 0.3rem;
+  background: repeating-linear-gradient(90deg, var(--line) 0 0.5rem, transparent 0.5rem 0.75rem);
+}
+
+.rail-check,
+.rail-cutover {
+  position: relative;
+  margin: 0;
+  padding-left: 1.125rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.rail-check::before,
+.rail-cutover::before {
+  content: '';
+  position: absolute;
+  top: 0.3rem;
+  left: 0.125rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--green);
+}
+
+.rail-cutover::before {
+  background: var(--accent);
+}
+
+/* Parallel run, controllo, poi lo scambio: il legacy si spegne e il cloud resta acceso. */
+html.anim .hs-card.is-active .rail-track::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #fff;
+  animation: rail-run 6s steps(10) infinite;
+}
+
+html.anim .hs-card.is-active .rail-from {
+  animation: rail-off 6s steps(1) infinite;
+}
+
+html.anim .hs-card.is-active .rail-to {
+  animation: rail-on 6s steps(1) infinite;
+}
+
+html.anim .hs-card.is-active .rail-check {
+  animation: rail-blink 6s steps(1) infinite;
+}
+
+html.anim .hs-card.is-active .rail-cutover {
+  animation: rail-cut 6s steps(1) infinite;
+}
+
+@keyframes rail-run {
+  60%,
+  100% {
+    left: calc(100% - 0.5rem);
+  }
+}
+
+@keyframes rail-off {
+  65% {
+    opacity: 1;
+  }
+
+  70%,
+  95% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes rail-on {
+  65% {
+    box-shadow: none;
+  }
+
+  70%,
+  95% {
+    box-shadow: inset 4px 0 0 var(--accent);
+  }
+}
+
+@keyframes rail-blink {
+  10%,
+  30%,
+  50% {
+    color: var(--green);
+  }
+
+  20%,
+  40%,
+  60% {
+    color: var(--muted);
+  }
+}
+
+@keyframes rail-cut {
+  65% {
+    color: var(--muted);
+  }
+
+  70%,
+  95% {
+    color: var(--accent);
+  }
+}
+
+.matrix {
+  display: grid;
+  gap: 0.25rem;
+  margin: 0 0 1rem;
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.matrix-row {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.matrix-cells {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.matrix-head {
+  color: var(--muted);
+}
+
+.matrix-head .matrix-cells {
+  justify-content: center;
+}
+
+.matrix-head .matrix-cells > span {
+  flex: 1;
+  text-align: center;
+}
+
+.matrix-cells i {
+  flex: 1;
+  height: 1.25rem;
+  background: var(--accent);
+}
+
+/* Le caselle si accendono una dopo l'altra, riga per riga. */
+.matrix-row:nth-child(3) {
+  --r: 1;
+}
+
+.matrix-row:nth-child(4) {
+  --r: 2;
+}
+
+.matrix-row:nth-child(5) {
+  --r: 3;
+}
+
+.matrix-cells i:nth-child(2) {
+  --c: 1;
+}
+
+.matrix-cells i:nth-child(3) {
+  --c: 2;
+}
+
+.matrix-cells i:nth-child(4) {
+  --c: 3;
+}
+
+.matrix-cells i:nth-child(5) {
+  --c: 4;
+}
+
+html.anim .hs-card.is-active .matrix-cells i {
+  animation: cell-on 5s steps(1) infinite backwards;
+  animation-delay: calc(var(--r, 0) * 0.8s + var(--c, 0) * 0.2s);
+}
+
+@keyframes cell-on {
+  0% {
+    background: var(--panel-soft);
+  }
+
+  8%,
+  100% {
+    background: var(--accent);
   }
 }
 

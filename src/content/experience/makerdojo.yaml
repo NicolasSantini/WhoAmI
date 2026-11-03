@@ -10,6 +10,14 @@ highlights:
     label: gruppi di docenti
   - value: 4h
     label: workshop in presenza
+matrix:
+  rows:
+    - Infanzia
+    - Primaria
+    - Secondaria di I grado
+  # TODO: i nomi delle quattro aree disciplinari, se vuoi mostrarli al posto del numero.
+  columns: 4
+  columnsLabel: aree disciplinari
 sections:
   - points:
       - Ho progettato da zero, su richiesta del cliente, un percorso pratico di AI generativa (Google Gemini, NotebookLM) per i docenti di una rete di scuole pubbliche di Piacenza, poi rivisto sui vincoli della scuola dopo la prima revisione.

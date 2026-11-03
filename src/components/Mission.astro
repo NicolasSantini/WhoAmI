@@ -11,6 +11,13 @@ interface Props {
 const { entry, index } = Astro.props;
 const { data, id } = entry;
 const logId = `log-${id}`;
+const { pipeline, rails, matrix } = data;
+const hasVisual = pipeline.length > 0 || rails !== undefined || matrix !== undefined;
+const matrixColumns = matrix
+  ? typeof matrix.columns === 'number'
+    ? Array.from({ length: matrix.columns }, () => '')
+    : matrix.columns
+  : [];
 ---
 
 <article class="hs-card panel mission">
@@ -24,8 +31,8 @@ const logId = `log-${id}`;
     {formatRange(data.start, data.end)}
     {data.engagement && ` · ${data.engagement}`}
   </p>
-  {/* La mappa della pipeline racconta già il riassunto, che resta nel log. */}
-  {data.pipeline.length === 0 && <p class="small">{data.summary}</p>}
+  {/* La parte visiva racconta già il riassunto, che resta nel log. */}
+  {!hasVisual && <p class="small">{data.summary}</p>}
   {data.highlights.length > 0 && (
     <div class="stats">
       {data.highlights.map((item) => (
@@ -33,17 +40,64 @@ const logId = `log-${id}`;
       ))}
     </div>
   )}
-  {data.pipeline.length > 0 && (
+  {pipeline.length > 0 && (
     <>
-      <p class="pipeline-title">Mappa della pipeline</p>
+      <p class="visual-title">Mappa della pipeline</p>
       <ol class="pipeline">
-        {data.pipeline.map((step) => (
+        {pipeline.map((step) => (
           <li>
             <strong>{step.stage}</strong>
             <span>{step.detail}</span>
           </li>
         ))}
       </ol>
+    </>
+  )}
+  {rails && (
+    <>
+      <p class="visual-title">Doppio binario</p>
+      <div class="rails">
+        {[rails.from, rails.to].map((rail, i) => (
+          <div class:list={['rail', i === 0 ? 'rail-from' : 'rail-to']}>
+            <strong>{rail.name}</strong>
+            <span>{rail.detail}</span>
+            <i class="rail-track" aria-hidden="true"></i>
+          </div>
+        ))}
+        <p class="rail-check">{rails.check}</p>
+        <p class="rail-cutover">{rails.cutover}</p>
+      </div>
+    </>
+  )}
+  {matrix && (
+    <>
+      <p class="visual-title">Matrice del percorso</p>
+      <div class="matrix">
+        <div class="matrix-row matrix-head">
+          <span></span>
+          {typeof matrix.columns === 'number' ? (
+            <span class="matrix-cells">
+              {matrix.columns} {matrix.columnsLabel}
+            </span>
+          ) : (
+            <span class="matrix-cells">
+              {matrix.columns.map((column) => (
+                <span>{column}</span>
+              ))}
+            </span>
+          )}
+        </div>
+        {matrix.rows.map((row) => (
+          <div class="matrix-row">
+            <span>{row}</span>
+            <span class="matrix-cells" aria-hidden="true">
+              {matrixColumns.map(() => (
+                <i></i>
+              ))}
+            </span>
+          </div>
+        ))}
+      </div>
     </>
   )}
   <button class="button ghost" type="button" popovertarget={logId}>

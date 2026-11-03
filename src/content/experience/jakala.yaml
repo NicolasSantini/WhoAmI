@@ -11,6 +11,15 @@ highlights:
     label: insegne
   - value: '0'
     label: interruzioni di servizio
+rails:
+  from:
+    name: Legacy
+    detail: MDM su Informatica PowerCenter, ETL batch schedulato
+  to:
+    name: Cloud-native
+    detail: Cloud Run, Cloud Functions e Cloud Workflows, event-driven
+  check: Riconciliazione record per record e campo per campo
+  cutover: Cutover senza interruzioni, con il legacy come rollback
 sections:
   - points:
       - Ho ridisegnato il livello dati attorno a pipeline serverless event-driven su Cloud Run, Cloud Functions e Cloud Workflows, sostituendo l'ETL batch schedulato con un'elaborazione quasi in tempo reale che reagisce ai cambiamenti dei dati sorgente.
