@@ -4,6 +4,12 @@ const LANE_SPEED = 0.42;
 const PIN_SPEED = 1.15;
 const IDLE_FRAME = '4';
 const FOCUS_DELAY = 40;
+// A triathlon along the page: swim the first third, bike the second, run to the end.
+const LEGS = [
+  { sport: 'swim', until: 1 / 3, toast: '' },
+  { sport: 'bike', until: 2 / 3, toast: 'T1 · Zona cambio: si sale in bici' },
+  { sport: 'run', until: Infinity, toast: 'T2 · Zona cambio: scarpe da corsa' },
+];
 
 const root = document.documentElement;
 const animated = root.classList.contains('anim');
@@ -85,6 +91,7 @@ function measure() {
 let runTimer = 0;
 let lastScroll = window.scrollY;
 let current = -1;
+let leg = -1;
 
 function moveRunner(scroll: number) {
   if (!runner) return;
@@ -96,12 +103,23 @@ function moveRunner(scroll: number) {
   }, 140);
 }
 
-function showCheckpoint(label: string) {
+function showToast(text: string) {
   if (!toast) return;
-  toast.textContent = `Checkpoint · ${label}`;
+  toast.textContent = text;
   toast.classList.remove('show');
   void toast.offsetWidth;
   toast.classList.add('show');
+}
+
+function updateLeg(progress: number) {
+  if (!runner || !lane) return;
+  const index = LEGS.findIndex(({ until }) => progress < until);
+  if (index === leg) return;
+  // Only a forward change on the way down is a transition worth announcing.
+  if (index > leg && leg >= 0) showToast(LEGS[index].toast);
+  leg = index;
+  runner.dataset.sport = LEGS[index].sport;
+  lane.dataset.sport = LEGS[index].sport;
 }
 
 function updateChapter(scroll: number) {
@@ -116,7 +134,7 @@ function updateChapter(scroll: number) {
   const chapter = chapters[index];
   root.dataset.world = chapter.world;
   if (chapterLabel) chapterLabel.textContent = chapter.label;
-  if (!chapter.seen && index > 0 && animated) showCheckpoint(chapter.label);
+  if (!chapter.seen && index > 0 && animated) showToast(`Checkpoint · ${chapter.label}`);
   chapter.seen = true;
 }
 
@@ -124,10 +142,12 @@ function paint() {
   ticking = false;
   const scroll = window.scrollY;
   const total = root.scrollHeight - window.innerHeight;
-  if (xp) xp.value = total > 0 ? Math.round((scroll / total) * 100) : 0;
+  const progress = total > 0 ? scroll / total : 0;
+  if (xp) xp.value = Math.round(progress * 100);
   updateChapter(scroll);
 
   if (animated) {
+    updateLeg(progress);
     moveRunner(scroll);
     lane?.style.setProperty('--x', String(Math.round(scroll * LANE_SPEED)));
     for (const { element, speed, tile } of starfields) {

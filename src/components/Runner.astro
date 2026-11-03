@@ -5,8 +5,9 @@ interface Props {
 
 const { portrait = false } = Astro.props;
 
-// h hair, s skin, t shirt, d shirt shade, p shorts, o shoes
-const frames = [
+// h hair, s skin, t shirt, d shirt shade, p shorts, o shoes and caps,
+// w water, f foam, k bike
+const run = [
   [
     '.....hhhh.....',
     '....hhhhhh....',
@@ -76,7 +77,7 @@ const frames = [
     '.....oooo.....',
   ],
 ];
-const idle = [
+const runIdle = [
   '.....hhhh.....',
   '....hhhhhh....',
   '....hsssss....',
@@ -93,25 +94,162 @@ const idle = [
   '.....s..s.....',
   '....oo..oo....',
 ];
+
+// Swim and bike sprites are wider: the run sprites sit centred in the same box.
+const swim = [
+  [
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '.............ooo..ss',
+    '.f.sspppssssoooods..',
+    'ffwwwwwwwsswwwwfwwww',
+    'wwwwwwwwwswwwwwwwwww',
+    'wwwwwwwwwwwwwwwwwwww',
+  ],
+  [
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '.............s......',
+    '............s.......',
+    '...........s.ooo....',
+    'f..sspppssssoooods..',
+    'wfwwwwwwwwwwwfwwwsss',
+    'wwwwwwwwwwwwwwwwwwww',
+    'wwwwwwwwwwwwwwwwwwww',
+  ],
+  [
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '..f..........ooo..ss',
+    '...sspppssssoooods..',
+    'wwfwwwwwwsswwwwwwfww',
+    'wwwwwwwwswwwwwwwwwww',
+    'wwwwwwwwwwwwwwwwwwww',
+  ],
+  [
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '....................',
+    '.............s......',
+    '............s.......',
+    '...........s.ooo....',
+    '.f.sspppssssoooods..',
+    'wwwfwwwwwwwwwwwfwsss',
+    'wwwwwwwwwwwwwwwwwwww',
+    'wwwwwwwwwwwwwwwwwwww',
+  ],
+];
+const swimIdle = [
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '.............ooo..ss',
+  '...sspppssssoooods..',
+  'wwwwwwwwwsswwwwwwwww',
+  'wwwwwwwwwswwwwwwwwww',
+  'wwwwwwwwwwwwwwwwwwww',
+];
+const pedalsLevel = [
+  '..........ooo.......',
+  '..........oss.......',
+  '........ttts........',
+  '.......ttt.s........',
+  '......ptt...ss......',
+  '.....ps......ksk....',
+  '......kss....k.k....',
+  '......kskskkkk......',
+  '..kkkk.s.s..k.kkk...',
+  '.k...ksk..sk.kk..k..',
+  'k..kk.s.kks.k..k..k.',
+  'k..kkkook.ook..k..k.',
+  'k..k..k.....k..k..k.',
+  '.k...k.......k...k..',
+  '..kkk.........kkk...',
+];
+const pedalsUpright = [
+  '..........ooo.......',
+  '..........oss.......',
+  '........ttts........',
+  '.......ttt.s........',
+  '......ptt...ss......',
+  '.....ps......ksk....',
+  '......kss....k.k....',
+  '......ksskkkkk......',
+  '..kkkk.ks...k.kkk...',
+  '.k...k.kookk.kk..k..',
+  'k...k.k.sk..k..k..k.',
+  'k.kkkkkks...k.kkk.k.',
+  'k.....k.s...k.....k.',
+  '.k...k..oo...k...k..',
+  '..kkk.........kkk...',
+];
+const bike = [pedalsLevel, pedalsUpright, pedalsLevel, pedalsUpright];
+
+const widen = (rows: string[]) => rows.map((row) => `...${row}...`);
 const pixels = (rows: string[]) =>
   rows.flatMap((row, y) =>
     [...row].flatMap((color, x) => (color === '.' ? [] : [{ x, y, color }])),
   );
-const sprites = [...frames.map(pixels), pixels(idle)];
+const sports = {
+  swim: [...swim, swimIdle],
+  bike: [...bike, pedalsLevel],
+  run: [...run, runIdle].map(widen),
+};
+// The portrait is always the runner, cropped back to its own width.
+const shown = portrait ? (['run'] as const) : (['swim', 'bike', 'run'] as const);
 ---
 
 <svg
   class={portrait ? 'player-sprite' : 'runner'}
   data-runner={portrait ? undefined : ''}
   data-frame="4"
-  viewBox="0 0 14 15"
+  data-sport={portrait ? 'run' : 'swim'}
+  viewBox={portrait ? '3 0 14 15' : '0 0 20 15'}
   aria-hidden="true"
   shape-rendering="crispEdges"
 >
-  {sprites.map((sprite, frame) => (
-    <g class={`frame frame-${frame}`}>
-      {sprite.map(({ x, y, color }) => (
-        <rect class={`c-${color}`} {x} {y} width="1" height="1" />
+  {shown.map((sport) => (
+    <g class={`sport sport-${sport}`}>
+      {sports[sport].map(pixels).map((sprite, frame) => (
+        <g class={`frame frame-${frame}`}>
+          {sprite.map(({ x, y, color }) => (
+            <rect class={`c-${color}`} {x} {y} width="1" height="1" />
+          ))}
+        </g>
       ))}
     </g>
   ))}

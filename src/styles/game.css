@@ -440,6 +440,10 @@ html.anim .lane {
   background-position-x: calc(var(--x, 0) * -1px);
 }
 
+.lane[data-sport='swim'] .lane-ground {
+  background-image: repeating-linear-gradient(90deg, #2f7fd6 0 2rem, #2569b8 2rem 4rem);
+}
+
 .flags {
   position: absolute;
   inset: 0;
@@ -481,8 +485,15 @@ html.anim .lane {
   transform: scaleX(-1);
 }
 
-.frame {
+.frame,
+.runner .sport {
   display: none;
+}
+
+.runner[data-sport='swim'] .sport-swim,
+.runner[data-sport='bike'] .sport-bike,
+.runner[data-sport='run'] .sport-run {
+  display: inline;
 }
 
 .runner[data-frame='0'] .frame-0,
@@ -515,6 +526,18 @@ html.anim .lane {
 
 .c-o {
   fill: #ff4f8b;
+}
+
+.c-w {
+  fill: #2f7fd6;
+}
+
+.c-f {
+  fill: #d9f4ff;
+}
+
+.c-k {
+  fill: #c9cfe6;
 }
 
 .toast {
