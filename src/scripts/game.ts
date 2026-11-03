@@ -4,11 +4,13 @@ const LANE_SPEED = 0.42;
 const PIN_SPEED = 1.15;
 const IDLE_FRAME = '4';
 const FOCUS_DELAY = 40;
-// A triathlon along the page: swim the first third, bike the second, run to the end.
+// A triathlon along the page: swim, T1, bike, T2, then run to the end.
 const LEGS = [
-  { sport: 'swim', until: 1 / 3, toast: '' },
-  { sport: 'bike', until: 2 / 3, toast: 'T1 · Zona cambio: si sale in bici' },
-  { sport: 'run', until: Infinity, toast: 'T2 · Zona cambio: scarpe da corsa' },
+  { sport: 'swim', until: 0.3, toast: '' },
+  { sport: 't1', until: 0.36, toast: 'T1 · Zona cambio: fuori dall’acqua, verso la bici' },
+  { sport: 'bike', until: 0.64, toast: 'In sella' },
+  { sport: 't2', until: 0.7, toast: 'T2 · Zona cambio: giù dalla bici' },
+  { sport: 'run', until: Infinity, toast: 'Scarpe da corsa: ultimo tratto' },
 ];
 
 const root = document.documentElement;

@@ -444,6 +444,12 @@ html.anim .lane {
   background-image: repeating-linear-gradient(90deg, #2f7fd6 0 2rem, #2569b8 2rem 4rem);
 }
 
+/* The transition zones run on the usual red carpet. */
+.lane[data-sport='t1'] .lane-ground,
+.lane[data-sport='t2'] .lane-ground {
+  background-image: repeating-linear-gradient(90deg, #c2304f 0 2rem, #a3263f 2rem 4rem);
+}
+
 .flags {
   position: absolute;
   inset: 0;
@@ -491,7 +497,9 @@ html.anim .lane {
 }
 
 .runner[data-sport='swim'] .sport-swim,
+.runner[data-sport='t1'] .sport-t1,
 .runner[data-sport='bike'] .sport-bike,
+.runner[data-sport='t2'] .sport-t2,
 .runner[data-sport='run'] .sport-run {
   display: inline;
 }

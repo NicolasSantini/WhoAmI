@@ -218,19 +218,68 @@ const pedalsUpright = [
   '..kkk.........kkk...',
 ];
 const bike = [pedalsLevel, pedalsUpright, pedalsLevel, pedalsUpright];
+const emptyLevel = [
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '.............kkk....',
+  '.....kkk.....k.k....',
+  '......kkkkkkkk......',
+  '..kkkk.k....k.kkk...',
+  '.k...k.k..kk.kk..k..',
+  'k..kk.k.kk..k..k..k.',
+  'k..kkkkkk...k..k..k.',
+  'k..k..k.....k..k..k.',
+  '.k...k.......k...k..',
+  '..kkk.........kkk...',
+];
+const emptyUpright = [
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '....................',
+  '.............kkk....',
+  '.....kkk.....k.k....',
+  '......kkkkkkkk......',
+  '..kkkk.k....k.kkk...',
+  '.k...k.k..kk.kk..k..',
+  'k...k.k.kk..k..k..k.',
+  'k.kkkkkkk...k.kkk.k.',
+  'k.....k.....k.....k.',
+  '.k...k.......k...k..',
+  '..kkk.........kkk...',
+];
 
 const widen = (rows: string[]) => rows.map((row) => `...${row}...`);
+const recolor = (rows: string[], map: Record<string, string>) =>
+  rows.map((row) => [...row].map((color) => map[color] ?? color).join(''));
+const over = (base: string[], top: string[]) =>
+  base.map((row, y) =>
+    [...row].map((color, x) => (top[y][x] === '.' ? color : top[y][x])).join(''),
+  );
+// T1: out of the water in swimsuit and cap, barefoot. T2: helmet on, pushing the bike.
+const t1 = (rows: string[]) => widen(recolor(rows, { h: 'o', t: 's', d: 's', o: 's' }));
+const t2 = (rows: string[], frame: number) =>
+  over(
+    frame % 2 ? emptyUpright : emptyLevel,
+    recolor(rows, { h: 'o' }).map((row) => `${row}......`),
+  );
 const pixels = (rows: string[]) =>
   rows.flatMap((row, y) =>
     [...row].flatMap((color, x) => (color === '.' ? [] : [{ x, y, color }])),
   );
 const sports = {
   swim: [...swim, swimIdle],
+  t1: [...run, runIdle].map(t1),
   bike: [...bike, pedalsLevel],
+  t2: [...run, runIdle].map(t2),
   run: [...run, runIdle].map(widen),
 };
 // The portrait is always the runner, cropped back to its own width.
-const shown = portrait ? (['run'] as const) : (['swim', 'bike', 'run'] as const);
+const shown = portrait ? (['run'] as const) : (['swim', 't1', 'bike', 't2', 'run'] as const);
 ---
 
 <svg
