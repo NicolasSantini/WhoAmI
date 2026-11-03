@@ -8,6 +8,17 @@ highlights:
     label: account di analytics
   - value: ~90%
     label: tempo query in meno
+pipeline:
+  - stage: Sorgenti
+    detail: API keyword di un provider, Google Analytics, Meta
+  - stage: Ingestion continua
+    detail: Pub/Sub e Python, con rate limit e retry gestiti
+  - stage: Elaborazione ETL
+    detail: Dataflow e Airflow
+  - stage: BigQuery
+    detail: dopo la migrazione da MongoDB
+  - stage: Uso
+    detail: team di analytics su 50+ account, API REST in FastAPI con OAuth2
 sections:
   - title: Ingestion ad alto volume, event-driven
     points:

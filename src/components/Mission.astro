@@ -24,13 +24,27 @@ const logId = `log-${id}`;
     {formatRange(data.start, data.end)}
     {data.engagement && ` · ${data.engagement}`}
   </p>
-  <p class="small">{data.summary}</p>
+  {/* La mappa della pipeline racconta già il riassunto, che resta nel log. */}
+  {data.pipeline.length === 0 && <p class="small">{data.summary}</p>}
   {data.highlights.length > 0 && (
     <div class="stats">
       {data.highlights.map((item) => (
         <Stat value={item.value} label={item.label} />
       ))}
     </div>
+  )}
+  {data.pipeline.length > 0 && (
+    <>
+      <p class="pipeline-title">Mappa della pipeline</p>
+      <ol class="pipeline">
+        {data.pipeline.map((step) => (
+          <li>
+            <strong>{step.stage}</strong>
+            <span>{step.detail}</span>
+          </li>
+        ))}
+      </ol>
+    </>
   )}
   <button class="button ghost" type="button" popovertarget={logId}>
     Apri il log

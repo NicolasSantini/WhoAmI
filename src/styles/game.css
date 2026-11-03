@@ -1025,6 +1025,84 @@ html:not(.anim) .hs-counter {
   font-weight: 650;
 }
 
+.pipeline-title {
+  margin: 0 0 0.5rem;
+  color: var(--accent);
+  font-family: var(--pixel);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+}
+
+.pipeline {
+  position: relative;
+  display: grid;
+  gap: 0.375rem;
+  margin: 0 0 1rem;
+  padding: 0 0 0 1.25rem;
+  list-style: none;
+}
+
+.pipeline::before {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: 0.3125rem;
+  width: 4px;
+  background: var(--line);
+}
+
+.pipeline li {
+  position: relative;
+  display: grid;
+  gap: 0.1rem 0.75rem;
+  padding: 0.35rem 0.6rem;
+  background: var(--panel-soft);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+}
+
+.pipeline li::before {
+  content: '';
+  position: absolute;
+  top: 0.75rem;
+  left: -1.125rem;
+  width: 0.625rem;
+  height: 0.625rem;
+  background: var(--accent);
+}
+
+.pipeline strong {
+  font-weight: 650;
+}
+
+.pipeline span {
+  color: var(--muted);
+}
+
+@media (min-width: 40rem) {
+  .pipeline li {
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+  }
+}
+
+html.anim .hs-card.is-active .pipeline::after {
+  content: '';
+  position: absolute;
+  top: 0.5rem;
+  left: 0.1875rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #fff;
+  animation: packet 2.4s steps(12) infinite;
+}
+
+@keyframes packet {
+  to {
+    top: calc(100% - 1rem);
+  }
+}
+
 .log {
   position: fixed;
   inset: 0;
