@@ -33,6 +33,8 @@ function* files(dir: string): Generator<string> {
 export function backupPrivate(target: string) {
   let copied = 0;
   let current = 0;
+  // Created even when empty: it proves the folder is writable and shows up in Proton Drive.
+  mkdirSync(target, { recursive: true });
   if (!existsSync(SOURCE)) return { copied, current };
   for (const file of files(SOURCE)) {
     const destination = join(target, relative(SOURCE, file));
