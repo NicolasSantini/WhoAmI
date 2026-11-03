@@ -8,6 +8,7 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node -e \"require('node:fs').rmSync('node_modules/.astro',{recursive:true,force:true})\"",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check && node scripts/check.ts",
