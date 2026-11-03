@@ -4,6 +4,5 @@ export const site = {
   location: 'Modena',
   email: 'santini.nic@gmail.com',
   linkedin: 'https://www.linkedin.com/in/nicolas-santini01/',
-  // TODO: inserire la P.IVA dopo la verifica con il commercialista.
-  vatNumber: '',
+  vatNumber: '04250560366',
 } as const;
