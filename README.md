@@ -80,6 +80,7 @@ Per un dominio tuo: aggiungilo al Worker in **Settings → Domains & Routes** e 
 | `npm run check`                  | Valida i contenuti, blocca originali ed EXIF, elenca i TODO |
 | `npm run new-race`               | Crea una gara futura                                        |
 | `npm run build-race <nome>`      | Elabora una gara                                            |
+| `npm run backup`                 | Copia `private/` su Proton Drive                            |
 | `npm run lint`, `npm run format` | Controlla e formatta il codice                              |
 
 ## Dove stanno le cose
@@ -96,4 +97,13 @@ Per un dominio tuo: aggiungilo al Worker in **Settings → Domains & Routes** e 
 
 ## Privacy
 
-`private/` non finisce mai in git: contiene GPX con battiti e orari, screenshot e foto originali. Conservane una copia a parte, perché esiste solo sul tuo computer. Pubblica solo tracciati di gare, mai di allenamenti.
+`private/` non finisce mai in git: contiene GPX con battiti e orari, screenshot e foto originali. Pubblica solo tracciati di gare, mai di allenamenti.
+
+### Backup di `private/`
+
+Gli originali esistono solo sul tuo computer, quindi vanno copiati altrove. Il backup va su Proton Drive, cifrato end-to-end:
+
+1. Installa l'app Proton Drive per Windows e accedi.
+2. Lancia `npm run backup`: copia `private/` in `My files/WhoAmI-private` dentro la cartella di Proton Drive, che l'app carica da sola.
+
+`npm run build-race` fa il backup da solo alla fine. Vengono copiati solo i file nuovi o cambiati, la cache dell'OCR resta fuori e dal backup non si cancella mai nulla. Se la cartella di Proton Drive ha un altro percorso, impostalo nella variabile d'ambiente `WHOAMI_BACKUP_DIR`.

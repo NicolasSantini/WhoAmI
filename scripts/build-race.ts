@@ -12,6 +12,7 @@ import {
 import { basename, extname, join } from 'node:path';
 import type { Document } from 'yaml';
 import { raceSchema } from '../src/content/schemas.ts';
+import { NO_TARGET, backupPrivate, backupTarget } from './lib/backup.ts';
 import { newRace, readRace, writeRace } from './lib/frontmatter.ts';
 import { parseResults, readResultsText, type Results } from './lib/ocr.ts';
 import { processMedal, processPhotos } from './lib/photos.ts';
@@ -225,4 +226,13 @@ if (!check.success) {
   fail(`${indexPath} va corretto a mano`);
 }
 console.log(`\nFatto: ${indexPath}`);
+
+// The originals now live only in private/: copy them away straight after.
+const backup = backupTarget();
+if (backup) {
+  const { copied } = backupPrivate(backup);
+  console.log(`Backup su Proton Drive: ${copied} file copiati.`);
+} else {
+  console.log(`Attenzione, backup saltato: ${NO_TARGET}.`);
+}
 console.log('Ora lancia npm run check, poi npm run dev per vedere la gara.');
