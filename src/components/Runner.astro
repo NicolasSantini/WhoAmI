@@ -77,6 +77,23 @@ const run = [
     '.....oooo.....',
   ],
 ];
+const victory = [
+  '.s...hhhh...s.',
+  '.s..hhhhhh..s.',
+  '..s.hsssss.s..',
+  '..s.ssssss.s..',
+  '...s.ssss.s...',
+  '...stttttts...',
+  '....tttttt....',
+  '....tttttt....',
+  '....tttttt....',
+  '.....pppp.....',
+  '.....pppp.....',
+  '.....s..s.....',
+  '.....s..s.....',
+  '.....s..s.....',
+  '....oo..oo....',
+];
 const runIdle = [
   '.....hhhh.....',
   '....hhhhhh....',
@@ -276,7 +293,8 @@ const sports = {
   t1: [...run, runIdle].map(t1),
   bike: [...bike, pedalsLevel],
   t2: [...run, runIdle].map(t2),
-  run: [...run, runIdle].map(widen),
+  // Frame 5 is the arms-up pose past the finish line.
+  run: [...run, runIdle, victory].map(widen),
 };
 // The portrait is always the runner, cropped back to its own width.
 const shown = portrait ? (['run'] as const) : (['swim', 't1', 'bike', 't2', 'run'] as const);

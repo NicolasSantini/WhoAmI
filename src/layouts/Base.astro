@@ -1,6 +1,7 @@
 ---
 import '../styles/game.css';
 import Email from '../components/Email.astro';
+import Finish from '../components/Finish.astro';
 import Runner from '../components/Runner.astro';
 import { site } from '../data/site.ts';
 
@@ -104,7 +105,9 @@ const inSport = Astro.url.pathname.startsWith('/oltre-il-lavoro');
 
     <div class="lane" data-lane aria-hidden="true">
       <div class="lane-ground"></div>
-      <div class="flags" data-flags></div>
+      <div class="flags" data-flags>
+        <Finish />
+      </div>
       <Runner />
     </div>
     <p class="toast" data-toast aria-hidden="true"></p>

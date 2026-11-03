@@ -1,0 +1,117 @@
+---
+// The finish line at the end of the lane: arch, tape, photographers and confetti.
+// One unit is one runner pixel; the runner stops at FINISH_STOP, past the tape at FINISH_TAPE.
+const FINISH_WIDTH = 76;
+const FINISH_HEIGHT = 30;
+const FINISH_TAPE = 17;
+const FINISH_STOP = 46;
+
+// r banner, f letters and tape, b post, n post light, h hair, s skin, g shirt,
+// p trousers, o shoes, k camera, d lens
+const font: Record<string, string[]> = {
+  A: ['.f.', 'f.f', 'fff', 'f.f', 'f.f'],
+  R: ['ff.', 'f.f', 'ff.', 'f.f', 'f.f'],
+  I: ['fff', '.f.', '.f.', '.f.', 'fff'],
+  V: ['f.f', 'f.f', 'f.f', 'f.f', '.f.'],
+  O: ['fff', 'f.f', 'f.f', 'f.f', 'fff'],
+};
+const standing = [
+  '...hhh....',
+  '..hhhhh...',
+  '.dkkkhs...',
+  'dkkksss...',
+  '.kkk.ss...',
+  '..ssgggg..',
+  '...sgggg..',
+  '....gggg..',
+  '....gggg..',
+  '....pppp..',
+  '....p..p..',
+  '....p..p..',
+  '....p..p..',
+  '...oo.oo..',
+];
+const crouching = [
+  '...hhh....',
+  '..hhhhh...',
+  '.dkkkhs...',
+  'dkkksss...',
+  '.kkk.ss...',
+  '..ssgggg..',
+  '...sgggg..',
+  '....ggggp.',
+  '....pppppp',
+  '...pp...p.',
+  '...oo...oo',
+];
+
+const grid = Array.from({ length: FINISH_HEIGHT }, () => Array<string>(FINISH_WIDTH).fill('.'));
+const block = (x0: number, y0: number, width: number, height: number, color: string) => {
+  for (let y = y0; y < y0 + height; y++) grid[y].fill(color, x0, x0 + width);
+};
+const stamp = (x0: number, y0: number, rows: string[]) =>
+  rows.forEach((row, y) =>
+    [...row].forEach((color, x) => {
+      if (color !== '.') grid[y0 + y][x0 + x] = color;
+    }),
+  );
+block(0, 0, 34, 7, 'r');
+block(1, 7, 3, 23, 'b');
+block(30, 7, 3, 23, 'b');
+block(1, 7, 1, 23, 'n');
+block(30, 7, 1, 23, 'n');
+[...'ARRIVO'].forEach((letter, i) => stamp(6 + i * 4, 1, font[letter]));
+stamp(56, FINISH_HEIGHT - standing.length, standing);
+stamp(66, FINISH_HEIGHT - crouching.length, crouching);
+
+const pixels = grid.flatMap((row, y) =>
+  row.flatMap((color, x) => (color === '.' ? [] : [{ x, y, color }])),
+);
+const tape = Array.from({ length: 26 }, (_, i) => ({ x: 4 + i, color: i % 2 ? 'f' : 'r' }));
+const flashes = [
+  { x: 55, y: 19 },
+  { x: 65, y: 22 },
+];
+const confetti = Array.from({ length: 14 }, (_, i) => ({
+  x: 5 + ((i * 7) % 48),
+  y: 7 + ((i * 5) % 6),
+  color: ['r', 'f', 't', 'o'][i % 4],
+}));
+---
+
+<svg
+  class="finish"
+  data-finish
+  data-tape={FINISH_TAPE}
+  data-stop={FINISH_STOP}
+  viewBox={`0 0 ${FINISH_WIDTH} ${FINISH_HEIGHT}`}
+  aria-hidden="true"
+  shape-rendering="crispEdges"
+>
+  {pixels.map(({ x, y, color }) => (
+    <rect class={`c-${color}`} {x} {y} width="1" height="1" />
+  ))}
+  <g class="tape tape-left">
+    {tape.slice(0, 13).map(({ x, color }) => (
+      <rect class={`c-${color}`} {x} y="22" width="1" height="1" />
+    ))}
+  </g>
+  <g class="tape tape-right">
+    {tape.slice(13).map(({ x, color }) => (
+      <rect class={`c-${color}`} {x} y="22" width="1" height="1" />
+    ))}
+  </g>
+  {flashes.map(({ x, y }) => (
+    <g class="flash">
+      <rect class="c-f" {x} {y} width="1" height="1" />
+      <rect class="c-f" x={x - 2} {y} width="1" height="1" />
+      <rect class="c-f" x={x - 1} y={y - 1} width="1" height="1" />
+      <rect class="c-f" x={x - 1} y={y + 1} width="1" height="1" />
+    </g>
+  ))}
+  <g class="confetti">
+    {confetti.map(({ x, y, color }) => (
+      <rect class={`c-${color}`} {x} {y} width="1" height="1" />
+    ))}
+  </g>
+</svg>

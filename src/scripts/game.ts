@@ -3,6 +3,8 @@ const FRAME_DISTANCE = 26;
 const LANE_SPEED = 0.42;
 const PIN_SPEED = 1.15;
 const IDLE_FRAME = '4';
+const VICTORY_FRAME = '5';
+const SPRITE_ROWS = 15;
 const FOCUS_DELAY = 40;
 // A triathlon along the page: swim, T1, bike, T2, then run to the end.
 const LEGS = [
@@ -23,6 +25,7 @@ const toast = document.querySelector<HTMLElement>('[data-toast]');
 const lane = document.querySelector<HTMLElement>('[data-lane]');
 const runner = lane?.querySelector<SVGElement>('[data-runner]');
 const flags = document.querySelector<HTMLElement>('[data-flags]');
+const finish = lane?.querySelector<SVGElement>('[data-finish]');
 
 const chapters = [...document.querySelectorAll<HTMLElement>('[data-chapter]')].map((element) => ({
   element,
@@ -83,10 +86,21 @@ function measure() {
     hero.top = hero.element.getBoundingClientRect().top + scroll;
     hero.distance = hero.element.offsetHeight - window.innerHeight;
   }
-  const runnerLeft = runner?.getBoundingClientRect().left ?? 0;
+  const runnerBox = runner?.getBoundingClientRect();
+  const runnerLeft = runnerBox?.left ?? 0;
   for (const chapter of chapters) {
     chapter.top = chapter.element.getBoundingClientRect().top + scroll;
     chapter.flag?.style.setProperty('--at', `${chapter.top * LANE_SPEED + runnerLeft}px`);
+  }
+  if (finish && runnerBox) {
+    // At the very bottom the runner stands at the stop column, just past the tape.
+    const unit = runnerBox.height / SPRITE_ROWS;
+    const total = root.scrollHeight - window.innerHeight;
+    const centre = runnerLeft + runnerBox.width / 2;
+    const stop = Number(finish.dataset.stop) * unit;
+    const tape = Number(finish.dataset.tape) * unit;
+    finish.style.setProperty('--at', `${total * LANE_SPEED + centre - stop}px`);
+    finishScroll = total - (stop - tape) / LANE_SPEED;
   }
 }
 
@@ -94,6 +108,9 @@ let runTimer = 0;
 let lastScroll = window.scrollY;
 let current = -1;
 let leg = -1;
+let finishScroll = Infinity;
+let finished = false;
+let celebrated = false;
 
 function moveRunner(scroll: number) {
   if (!runner) return;
@@ -101,7 +118,7 @@ function moveRunner(scroll: number) {
   if (scroll !== lastScroll) runner.classList.toggle('backwards', scroll < lastScroll);
   window.clearTimeout(runTimer);
   runTimer = window.setTimeout(() => {
-    runner.dataset.frame = IDLE_FRAME;
+    runner.dataset.frame = finished ? VICTORY_FRAME : IDLE_FRAME;
   }, 140);
 }
 
@@ -111,6 +128,14 @@ function showToast(text: string) {
   toast.classList.remove('show');
   void toast.offsetWidth;
   toast.classList.add('show');
+}
+
+function updateFinish(scroll: number) {
+  if (!finish) return;
+  finished = scroll >= finishScroll - 1;
+  finish.classList.toggle('crossed', finished);
+  if (finished && !celebrated) showToast('Traguardo · Finisher!');
+  celebrated ||= finished;
 }
 
 function updateLeg(progress: number) {
@@ -150,6 +175,7 @@ function paint() {
 
   if (animated) {
     updateLeg(progress);
+    updateFinish(scroll);
     moveRunner(scroll);
     lane?.style.setProperty('--x', String(Math.round(scroll * LANE_SPEED)));
     for (const { element, speed, tile } of starfields) {

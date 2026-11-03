@@ -102,7 +102,8 @@ body {
 }
 
 html.anim body {
-  padding-bottom: var(--lane);
+  /* Room for the lane, plus the finish arch that rises above it at the end. */
+  padding-bottom: calc(var(--lane) + 2.5rem);
 }
 
 h1,
@@ -422,7 +423,9 @@ html.anim .lane {
   z-index: 45;
   display: block;
   height: calc(var(--lane) + env(safe-area-inset-bottom));
-  overflow: hidden;
+  /* The finish arch stands taller than the lane. */
+  overflow-x: clip;
+  overflow-y: visible;
   background: #090b1c;
   border-top: 4px solid var(--accent);
   transition: border-color 0.4s steps(4);
@@ -508,7 +511,8 @@ html.anim .lane {
 .runner[data-frame='1'] .frame-1,
 .runner[data-frame='2'] .frame-2,
 .runner[data-frame='3'] .frame-3,
-.runner[data-frame='4'] .frame-4 {
+.runner[data-frame='4'] .frame-4,
+.runner[data-frame='5'] .frame-5 {
   display: block;
 }
 
@@ -546,6 +550,98 @@ html.anim .lane {
 
 .c-k {
   fill: #c9cfe6;
+}
+
+.c-r {
+  fill: #e63946;
+}
+
+.c-b {
+  fill: #3b4cca;
+}
+
+.c-n {
+  fill: #5c6cf0;
+}
+
+.c-g {
+  fill: #7a86b8;
+}
+
+/* Finish line: the tape snaps, the photographers flash, confetti falls. */
+.finish {
+  position: absolute;
+  bottom: 0.875rem;
+  left: var(--at, -100vw);
+  width: auto;
+  height: calc(2.375rem * 2);
+}
+
+.finish .tape {
+  transform-box: view-box;
+  transition: transform 0.3s steps(3);
+}
+
+.tape-left {
+  transform-origin: 4px 22.5px;
+}
+
+.tape-right {
+  transform-origin: 30px 22.5px;
+}
+
+.finish.crossed .tape-left {
+  transform: rotate(75deg);
+}
+
+.finish.crossed .tape-right {
+  transform: rotate(-75deg);
+}
+
+.finish .flash,
+.finish .confetti {
+  opacity: 0;
+}
+
+.finish.crossed .flash {
+  animation: flash 0.9s steps(1) infinite;
+}
+
+.finish.crossed .flash + .flash {
+  animation-delay: 0.45s;
+}
+
+.finish.crossed .confetti {
+  opacity: 1;
+}
+
+.finish.crossed .confetti rect {
+  animation: confetti 1.6s steps(8) infinite;
+}
+
+.finish.crossed .confetti rect:nth-child(odd) {
+  animation-delay: -0.8s;
+}
+
+.finish.crossed .confetti rect:nth-child(3n) {
+  animation-delay: -0.4s;
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+  }
+
+  20%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes confetti {
+  to {
+    transform: translateY(16px);
+  }
 }
 
 .toast {
