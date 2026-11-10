@@ -24,3 +24,8 @@
   when: Novembre 2026
   title: Quindici chilometri e 500 metri di dislivello
   text: Al Ventasso corro 15 km in 1:23:30. Il filo conduttore resta lo stesso, capire fin dove riesco ad arrivare.
+- id: backyard
+  order: 6
+  when: Novembre 2026
+  title: Prima ultra, in formato backyard
+  text: Con un amico simulo una backyard vera, un giro da 6,7 km ogni ora. Li chiudo tutti e dieci, 67,5 km in 10 ore, più del doppio della corsa più lunga fatta finora.
