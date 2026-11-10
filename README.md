@@ -28,6 +28,8 @@ npm run dev
 
 Se la gara esisteva già come gara futura, usa la sua cartella. Tutti i file sono facoltativi, e git ignora tutto tranne `index.md`, `track.svg` e `profile.svg`.
 
+Il FIT puoi scaricarlo da Garmin Connect senza esportarlo a mano: la prima volta accedi con `npm run garmin -- login` (email, password e codice di verifica, chiesti nel terminale), poi `npm run garmin -- fetch 2026-mezza-monza` mette nella cartella l'attività del giorno della gara, la più lunga se ce n'è più di una. Usa `python-garminconnect`, una libreria non ufficiale: Garmin può cambiare il login e romperla. Il primo uso prepara Python in `.venv`; il token resta in `~/.garminconnect`, fuori dal repo.
+
 **2. Lancia lo script** e rispondi alle domande:
 
 ```bash
@@ -81,6 +83,7 @@ Per un dominio tuo: aggiungilo al Worker in **Settings → Domains & Routes** e 
 | `npm run new-race`               | Crea una gara futura                                        |
 | `npm run build-race <nome>`      | Elabora una gara                                            |
 | `npm run backup`                 | Copia `private/` su Proton Drive                            |
+| `npm run garmin -- fetch <nome>` | Scarica da Garmin Connect il FIT del giorno della gara      |
 | `npm run lint`, `npm run format` | Controlla e formatta il codice                              |
 
 ## Dove stanno le cose

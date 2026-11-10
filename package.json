@@ -16,7 +16,8 @@
     "format": "prettier --write .",
     "new-race": "node scripts/new-race.ts",
     "build-race": "node scripts/build-race.ts",
-    "backup": "node scripts/backup.ts"
+    "backup": "node scripts/backup.ts",
+    "garmin": "node scripts/garmin.ts"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

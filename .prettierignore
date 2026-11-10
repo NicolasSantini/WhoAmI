@@ -2,6 +2,7 @@ dist/
 .astro/
 .wrangler/
 node_modules/
+.venv/
 private/
 public/
 package-lock.json
