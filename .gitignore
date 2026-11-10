@@ -26,3 +26,4 @@ src/content/races/*/*
 !src/content/races/*/profile.svg
 
 .claude/
+__pycache__/

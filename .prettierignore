@@ -7,3 +7,4 @@ private/
 public/
 package-lock.json
 src/content/races/**/*.svg
+__pycache__/
