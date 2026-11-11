@@ -82,6 +82,8 @@ export const journeySchema = z.object({
   when: text,
   title: text,
   text: text,
+  // The race folder this stage tells: check warns about done races with no stage.
+  race: text.optional(),
 });
 
 // Optional hand-kept yearly totals: no tracks, no dates, only kilometres.

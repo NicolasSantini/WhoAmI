@@ -10,21 +10,25 @@
   title: Inizia la base endurance
   text: Comincio a costruire una base di resistenza seria, con la prima corsa lunga da 26,5 km ad agosto.
 - id: spartan
+  race: 2026-spartan-misano
   order: 3
   when: Settembre 2026
   title: Prima gara a ostacoli
   text: Spartan Super 10K a Misano in 1:50, con un solo ostacolo mancato.
 - id: monza
+  race: 2026-mezza-monza
   order: 4
   when: Ottobre 2026
   title: Prima mezza in gara
   text: Mezza di Monza in 1:53:03, sotto l'obiettivo di 1:55. Il nuoto intanto sale dalle sedute da 900 m a 4 km continui, e la corsa più lunga arriva a 28 km.
 - id: ventasso
+  race: 2026-ventasso-15k
   order: 5
   when: Novembre 2026
   title: Quindici chilometri e 500 metri di dislivello
   text: Al Ventasso corro 15 km in 1:23:30. Il filo conduttore resta lo stesso, capire fin dove riesco ad arrivare.
 - id: backyard
+  race: 2026-backyard
   order: 6
   when: Novembre 2026
   title: Prima ultra, in formato backyard

@@ -12,6 +12,7 @@ const root = process.cwd();
 const errors: string[] = [];
 const warnings: string[] = [];
 const rel = (path: string) => relative(root, path).split(sep).join('/');
+const doneRaces: string[] = [];
 
 function walk(dir: string): string[] {
   if (!existsSync(dir)) return [];
@@ -90,8 +91,29 @@ function checkRaces() {
     if (raw === undefined) continue;
     const race = report(index, schemas.raceSchema, raw) as schemas.Race | undefined;
     if (!race || race.draft) continue;
+    if (race.status === 'done') doneRaces.push(name);
     if (race.status === 'upcoming' && race.date && race.date < today) {
       warnings.push(`${rel(index)} → gara "prossima" con data passata: è ora di aggiornarla`);
+    }
+  }
+}
+
+// "Il mio percorso" is written by hand: a done race does not reach it on its own.
+function checkJourney() {
+  const path = 'src/content/journey/journey.yaml';
+  const full = join(root, path);
+  if (!existsSync(full)) return;
+  const stages = readYaml(full);
+  if (!Array.isArray(stages)) return;
+  const told = new Set(stages.map((stage) => stage?.race).filter(Boolean));
+  for (const name of doneRaces) {
+    if (!told.has(name)) {
+      warnings.push(`${path} → la gara fatta ${name} non ha una tappa nel percorso (campo race)`);
+    }
+  }
+  for (const name of told) {
+    if (!existsSync(join(root, 'src/content/races', name))) {
+      warnings.push(`${path} → race: ${name} non corrisponde a nessuna cartella di gara`);
     }
   }
 }
@@ -145,6 +167,7 @@ checkYamlList('src/content/skills/skills.yaml', schemas.skillGroupSchema);
 checkYamlList('src/content/journey/journey.yaml', schemas.journeySchema);
 checkYamlList('src/content/training/aggregates.yaml', schemas.trainingYearSchema);
 checkRaces();
+checkJourney();
 checkTrackedFiles();
 await checkImageMetadata();
 collectTodos();
