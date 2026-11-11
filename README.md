@@ -44,6 +44,8 @@ Puoi rilanciarlo quando vuoi: i campi scritti a mano e il testo restano. Solo il
 
 **3. Completa a mano** `index.md`: scrivi il racconto sotto il secondo `---` e migliora le descrizioni in `photoAlts`. I valori scritti a mano, come `distanceKm`, vincono su quelli del tracciato.
 
+Aggiungi poi la tappa in `src/content/journey/journey.yaml`, con `race:` uguale al nome della cartella: "Il mio percorso" è scritto a mano e `npm run check` ti avvisa finché una gara fatta non ha la sua tappa.
+
 **4. Controlla e pubblica:**
 
 ```bash
