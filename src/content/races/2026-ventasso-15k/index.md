@@ -1,10 +1,9 @@
 ---
-# TODO: inserire il nome ufficiale della gara.
-title: Gara da 15 km del Ventasso
+title: Collagna CWC
 status: done
 kind: corsa
 date: 2026-11-01
-location: Ventasso
+location: Collagna (Ventasso)
 distanceKm: 15.06
 elevationGainM: 500
 time: '1:23:30'

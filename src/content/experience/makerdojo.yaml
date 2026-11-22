@@ -15,8 +15,11 @@ matrix:
     - Infanzia
     - Primaria
     - Secondaria di I grado
-  # TODO: i nomi delle quattro aree disciplinari, se vuoi mostrarli al posto del numero.
-  columns: 4
+  columns:
+    - Linguistico-espressivo
+    - Inclusione e neurodivergenze
+    - Artistico-musicale-tecnologico
+    - Logico-matematico
   columnsLabel: aree disciplinari
 sections:
   - points:
