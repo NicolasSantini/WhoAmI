@@ -3,10 +3,6 @@
 # le gare già presenti nel sito (Monza, CWC Collagna, backyard).
 # Il dislivello conta solo corsa e bici.
 # Aggiornato il 2026-11-22. Strava è incompleto: alcuni allenamenti non sono registrati.
-- id: '2025'
-  year: 2025
-  runKm: 11.9
-  elevationM: 18
 - id: '2026'
   year: 2026
   swimKm: 28.4

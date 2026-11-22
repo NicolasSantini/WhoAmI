@@ -15,6 +15,9 @@ auto:
   pace: '5:18/km'
   elevationGainM: 45
   photos: []
+  medal:
+    front: '/races/2026-mezza-monza/medal.webp'
+    back: '/races/2026-mezza-monza/medal-back.webp'
 ---
 
 Obiettivo centrato, con un negative split forte: prima metà a 5:37/km, seconda a 5:05/km. La partenza è stata troppo prudente: a passo regolare valeva circa 1:50-1:51.
