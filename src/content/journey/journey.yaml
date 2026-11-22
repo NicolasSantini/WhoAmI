@@ -14,7 +14,7 @@
   order: 3
   when: Settembre 2026
   title: Prima gara a ostacoli
-  text: Spartan Super 10K a Misano in 1:50, con un solo ostacolo mancato.
+  text: Spartan Super 10K a Misano in 1:50, con un solo ostacolo mancato su 25.
 - id: monza
   race: 2026-mezza-monza
   order: 4
@@ -26,7 +26,7 @@
   order: 5
   when: Novembre 2026
   title: Quindici chilometri e 500 metri di dislivello
-  text: Alla CWC di Collagna corro 15 km in 1:23:30. Il filo conduttore resta lo stesso, capire fin dove riesco ad arrivare.
+  text: Alla CWC Collagna corro 15 km in 1:23:30. Il filo conduttore resta lo stesso, capire fin dove riesco ad arrivare.
 - id: backyard
   race: 2026-backyard
   order: 6

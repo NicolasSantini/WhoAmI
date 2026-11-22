@@ -147,11 +147,18 @@ const photos = data.auto?.photos ?? [];
       </>
     )}
 
-    {data.links.strava && (
+    {(data.links.strava || data.links.results) && (
       <p class="actions">
-        <a class="button" href={data.links.strava} rel="noopener">
-          View on Strava
-        </a>
+        {data.links.results && (
+          <a class="button" href={data.links.results} rel="noopener">
+            Classifica ufficiale
+          </a>
+        )}
+        {data.links.strava && (
+          <a class="button" href={data.links.strava} rel="noopener">
+            View on Strava
+          </a>
+        )}
       </p>
     )}
   </article>
